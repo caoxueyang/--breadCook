@@ -24,7 +24,3 @@ dist-ssr
 *.sw?
 
 .vercel
-.vercel-tmp
-
-# APK
-*.apk

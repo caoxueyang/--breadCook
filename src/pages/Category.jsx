@@ -3,6 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useData } from '../contexts/DataContext';
 import TagFilter from '../components/TagFilter';
 import DishCard from '../components/DishCard';
+import {
+  getCurrentMonth,
+  getSeasonalData,
+  getSeasonalDishIngredients,
+  getSeasonalFruitIngredients,
+  dishMatchesSeasonal,
+} from '../utils/seasonal';
 import './Page.css';
 
 const CATEGORY_MAP = {
@@ -22,7 +29,13 @@ export default function Category() {
 
   const filteredDishes = useMemo(() => {
     let result = dishes.filter(d => d.category === category);
-    if (activeTag) {
+    if (activeTag === '应季菜') {
+      const ingredients = getSeasonalDishIngredients();
+      result = result.filter(d => dishMatchesSeasonal(d, ingredients));
+    } else if (activeTag === '应季水果') {
+      const ingredients = getSeasonalFruitIngredients();
+      result = result.filter(d => dishMatchesSeasonal(d, ingredients));
+    } else if (activeTag) {
       result = result.filter(d => d.tags && d.tags.includes(activeTag));
     }
     if (searchQuery.trim()) {
@@ -69,10 +82,17 @@ export default function Category() {
       </header>
 
       <div className="page-content">
+        {activeTag === '应季菜' || activeTag === '应季水果' ? (
+          <SeasonalBanner type={activeTag} count={filteredDishes.length} />
+        ) : null}
         {filteredDishes.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">{config.empty}</div>
-            <p className="empty-text">暂无{config.title}</p>
+            <p className="empty-text">
+              {activeTag === '应季菜' || activeTag === '应季水果'
+                ? `${getSeasonalData().months.join('、')} 月应季食材中还没有匹配的菜品`
+                : `暂无${config.title}`}
+            </p>
             <p className="empty-hint">点击下方 + 添加新菜品</p>
           </div>
         ) : (
@@ -93,6 +113,104 @@ export default function Category() {
           <line x1="5" y1="12" x2="19" y2="12"/>
         </svg>
       </button>
+    </div>
+  );
+}
+
+/**
+ * 本月应季食材 Banner（按月分块展示 5/6/7 三个月）
+ * 应季菜：蔬野菜 + 威海应季海鲜
+ * 应季水果：威海本地应季水果 + 其他产区应季水果
+ */
+function SeasonalBanner({ type, count }) {
+  const data = getSeasonalData();
+  const isDish = type === '应季菜';
+  const icon = isDish ? '🌱' : '🍓';
+  const rangeText = `${data.months[0]}–${data.months[2]} 月`;
+  const title = isDish
+    ? `${rangeText}威海应季菜`
+    : `${rangeText}应季水果`;
+
+  return (
+    <div className="seasonal-banner">
+      <div className="seasonal-banner-header">
+        <span className="seasonal-icon">{icon}</span>
+        <span className="seasonal-title">{title}</span>
+        <span className="seasonal-count">匹配 {count} 道菜</span>
+      </div>
+      <div className="seasonal-months">
+        {data.byMonth.map(monthData => (
+          <SeasonalMonthBlock
+            key={monthData.month}
+            monthData={monthData}
+            isDish={isDish}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** 单个月份的食材块：蔬野菜+海鲜 或 本地水果+其他产区水果 */
+function SeasonalMonthBlock({ monthData, isDish }) {
+  const { month, veggies, seafood, fruitsLocal, fruitsOther } = monthData;
+  const hasAny =
+    veggies.length + seafood.length + fruitsLocal.length + fruitsOther.length > 0;
+  if (!hasAny) return null;
+
+  return (
+    <div className="seasonal-month-block">
+      <div className="seasonal-month-title">{month} 月</div>
+      {isDish ? (
+        <>
+          {veggies.length > 0 && (
+            <div className="seasonal-section">
+              <div className="seasonal-section-title">🥬 蔬野菜</div>
+              <div className="seasonal-tags">
+                {veggies.map(name => (
+                  <span key={name} className="seasonal-tag">{name}</span>
+                ))}
+              </div>
+            </div>
+          )}
+          {seafood.length > 0 && (
+            <div className="seasonal-section">
+              <div className="seasonal-section-title">🦐 威海应季海鲜</div>
+              <div className="seasonal-tags">
+                {seafood.map(name => (
+                  <span key={name} className="seasonal-tag">{name}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          {fruitsLocal.length > 0 && (
+            <div className="seasonal-section">
+              <div className="seasonal-section-title">🍓 威海本地应季水果</div>
+              <div className="seasonal-tags">
+                {fruitsLocal.map(name => (
+                  <span key={name} className="seasonal-tag">{name}</span>
+                ))}
+              </div>
+            </div>
+          )}
+          {fruitsOther.length > 0 && (
+            <div className="seasonal-section">
+              <div className="seasonal-section-title">🌏 其他产区应季水果</div>
+              <div className="seasonal-tags">
+                {fruitsOther.map(f => (
+                  <span key={f.name} className="seasonal-tag seasonal-tag-fruit">
+                    <span className="seasonal-tag-name">{f.name}</span>
+                    <span className="seasonal-tag-origin">· {f.origin}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

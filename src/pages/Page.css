@@ -445,3 +445,152 @@ html[data-theme="minimal"] .fav-generate-btn.active {
   line-height: 1;
   flex-shrink: 0;
 }
+
+/* 本月应季食材 Banner */
+.seasonal-banner {
+  margin: 12px 16px 0;
+  padding: 14px 14px 12px;
+  background: linear-gradient(135deg, rgba(255, 248, 220, 0.95) 0%, rgba(255, 240, 220, 0.9) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(245, 215, 110, 0.35);
+  box-shadow: 0 2px 10px rgba(245, 215, 110, 0.12);
+}
+html[data-theme="hellokitty"] .seasonal-banner {
+  background: linear-gradient(135deg, rgba(255, 230, 240, 0.95) 0%, rgba(255, 200, 220, 0.85) 100%);
+  border-color: rgba(255, 107, 138, 0.3);
+  box-shadow: 0 2px 10px rgba(255, 107, 138, 0.12);
+}
+html[data-theme="minimal"] .seasonal-banner {
+  background: #F7F7F7;
+  border-color: #E5E5E5;
+  box-shadow: none;
+}
+
+.seasonal-banner-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.seasonal-icon {
+  font-size: 20px;
+}
+.seasonal-title {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+html[data-theme="hellokitty"] .seasonal-title {
+  color: #5C1A2A;
+}
+.seasonal-count {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.7);
+  padding: 2px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.seasonal-section {
+  margin-top: 8px;
+}
+.seasonal-section:first-of-type {
+  margin-top: 0;
+}
+.seasonal-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+  letter-spacing: 0.2px;
+}
+.seasonal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.seasonal-tag {
+  font-size: 12px;
+  padding: 3px 10px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--color-text);
+  border-radius: 10px;
+  border: 1px solid rgba(245, 215, 110, 0.4);
+  white-space: nowrap;
+}
+html[data-theme="hellokitty"] .seasonal-tag {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 107, 138, 0.3);
+  color: #5C1A2A;
+}
+html[data-theme="minimal"] .seasonal-tag {
+  background: #FFFFFF;
+  border-color: #D5D5D5;
+  color: #1A1A1A;
+}
+
+/* 应季水果：品种 + 产地 */
+.seasonal-tag-fruit {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 4px 10px;
+}
+.seasonal-tag-fruit .seasonal-tag-name {
+  font-weight: 700;
+  font-size: 12.5px;
+}
+.seasonal-tag-fruit .seasonal-tag-origin {
+  font-size: 10.5px;
+  color: var(--color-text-muted);
+  opacity: 0.85;
+  font-weight: 400;
+}
+html[data-theme="hellokitty"] .seasonal-tag-fruit .seasonal-tag-origin {
+  color: #8B3A52;
+}
+html[data-theme="minimal"] .seasonal-tag-fruit .seasonal-tag-origin {
+  color: #666;
+}
+
+/* 应季食材按月分块 */
+.seasonal-months {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.seasonal-month-block {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 10px;
+  padding: 8px 10px 6px;
+  border: 1px dashed rgba(245, 215, 110, 0.45);
+}
+html[data-theme="hellokitty"] .seasonal-month-block {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 107, 138, 0.4);
+}
+html[data-theme="minimal"] .seasonal-month-block {
+  background: #FFFFFF;
+  border-color: #E0E0E0;
+}
+.seasonal-month-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+html[data-theme="hellokitty"] .seasonal-month-title {
+  color: #FF6B8A;
+}
+html[data-theme="minimal"] .seasonal-month-title {
+  color: #1A1A1A;
+}
+.seasonal-month-block .seasonal-section {
+  margin-top: 6px;
+}
+.seasonal-month-block .seasonal-section:first-of-type {
+  margin-top: 0;
+}
