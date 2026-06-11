@@ -1,0 +1,103 @@
+.tab-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 60px;
+  background: var(--color-tab-bg);
+  border-top: 1px solid var(--color-divider);
+  box-shadow: 0 -2px 10px var(--color-shadow);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.tab-bar-bg {
+  position: absolute;
+  inset: -20px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px) brightness(1.1);
+  opacity: 0.35;
+  z-index: 0;
+  transition: background-image 0.4s ease;
+}
+
+.tab-bar > *:not(.tab-bar-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 16px 4px;
+  position: relative;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab-item:active {
+  transform: scale(0.92);
+}
+
+.tab-item .tab-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tab-item.active .tab-icon-wrap {
+  transform: translateY(-2px) scale(1.08);
+}
+
+.tab-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-tab-inactive);
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.tab-item.active .tab-label {
+  color: var(--color-tab-active);
+  font-weight: 700;
+}
+
+/* 选中时的底部下划线指示器（纯色，不用渐变） */
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-tab-active);
+  transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+
+.tab-item.active .tab-indicator {
+  width: 22px;
+}
+
+/* HelloKitty 主题：下划线为纯粉色 */
+html[data-theme="hellokitty"] .tab-indicator {
+  background: #FF6B8A;
+}
+
+/* Minimal 主题：下划线为黑色细线 */
+html[data-theme="minimal"] .tab-indicator {
+  background: #1A1A1A;
+  height: 2px;
+  width: 0;
+}
+html[data-theme="minimal"] .tab-item.active .tab-indicator {
+  width: 18px;
+}

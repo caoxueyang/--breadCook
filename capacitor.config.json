@@ -1,0 +1,9 @@
+{
+  "appId": "com.family.menu",
+  "appName": "面包の餐厅",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "https"
+  }
+}

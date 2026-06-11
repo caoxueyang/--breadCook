@@ -1,0 +1,207 @@
+.edit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-divider);
+  flex-shrink: 0;
+}
+
+.edit-header-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.edit-save-btn {
+  padding: 8px 20px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: var(--color-card);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  transition: all 0.2s;
+}
+
+html[data-theme="minimal"] .edit-save-btn {
+  color: #FFFFFF;
+}
+
+.edit-save-btn:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+.edit-content {
+  padding-bottom: 40px;
+}
+
+/* Image section */
+.edit-image-section {
+  width: 100%;
+  aspect-ratio: 16/9;
+  cursor: pointer;
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+}
+
+.edit-image-preview {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.edit-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.5));
+  color: white;
+  text-align: center;
+  font-size: var(--font-size-sm);
+}
+
+.edit-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.edit-remove-img {
+  display: block;
+  margin: 8px auto;
+  padding: 6px 16px;
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-full);
+  transition: all 0.2s;
+}
+
+.edit-remove-img:active {
+  transform: scale(0.95);
+}
+
+/* Fields */
+.edit-field {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.edit-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--color-input-bg);
+  border: 1.5px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  transition: border-color 0.2s;
+}
+
+.edit-input:focus {
+  border-color: var(--color-primary);
+}
+
+.edit-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--color-input-bg);
+  border: 1.5px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  resize: vertical;
+  min-height: 160px;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+.edit-textarea:focus {
+  border-color: var(--color-primary);
+}
+
+/* Category buttons */
+.edit-category-group {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-category-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.2s;
+  border: 1.5px solid transparent;
+}
+
+.edit-category-btn:active {
+  transform: scale(0.95);
+}
+
+.edit-category-btn.active {
+  background: var(--color-primary-light);
+  color: var(--color-text);
+  border-color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Tag buttons */
+.edit-tags-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.edit-tag-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  background: var(--color-tag-bg);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: all 0.2s;
+  border: 1.5px solid transparent;
+}
+
+.edit-tag-btn:active {
+  transform: scale(0.95);
+}
+
+.edit-tag-btn.active {
+  background: var(--color-tag-active);
+  color: var(--color-card);
+  font-weight: 600;
+}
+
+html[data-theme="minimal"] .edit-tag-btn.active {
+  color: #FFFFFF;
+}

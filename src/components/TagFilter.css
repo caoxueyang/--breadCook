@@ -1,0 +1,49 @@
+.tag-filter {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-bg);
+  padding: 8px 0;
+}
+
+.tag-filter-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 16px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tag-filter-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.tag-filter-item {
+  flex-shrink: 0;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: var(--color-tag-bg);
+  border: 1.5px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tag-filter-item:active {
+  transform: scale(0.95);
+}
+
+.tag-filter-item.active {
+  background: var(--color-tag-active);
+  color: var(--color-card);
+  font-weight: 600;
+  border-color: transparent;
+}
+
+/* 极简主题特殊处理: active tag 文字用白色 */
+html[data-theme="minimal"] .tag-filter-item.active {
+  color: #FFFFFF;
+}

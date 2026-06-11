@@ -1,0 +1,125 @@
+/* ============================================
+   三套主题 CSS Variables
+   切换方式: 在 html[data-theme="xxx"] 上设置
+   ============================================ */
+
+/* -------- 布丁狗玛芬（默认）-------- */
+:root,
+html[data-theme="pompompurin"] {
+  --color-primary: #F5D76E;
+  --color-primary-dark: #D4A017;
+  --color-primary-light: #FFF1B8;
+  --color-accent: #8B6914;
+  --color-bg: #FFF8E7;
+  --color-bg-secondary: #FFF3D0;
+  --color-card: #FFFFFF;
+  --color-card-border: #F0E0B0;
+  --color-text: #4A3500;
+  --color-text-secondary: #8B7340;
+  --color-text-muted: #B8A070;
+  --color-danger: #E74C3C;
+  --color-tag-bg: #FFF5D6;
+  --color-tag-active: #F5D76E;
+  --color-tab-bg: #FFFFFF;
+  --color-tab-active: #F5D76E;
+  --color-tab-inactive: #C8B080;
+  --color-input-bg: #FFFDF5;
+  --color-input-border: #E8D8A0;
+  --color-shadow: rgba(139, 105, 20, 0.1);
+  --color-divider: #F0E0B0;
+  --color-overlay: rgba(74, 53, 0, 0.5);
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+  --font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 13px;
+  --font-size-md: 15px;
+  --font-size-lg: 18px;
+  --font-size-xl: 22px;
+  --font-size-xxl: 28px;
+  --decoration-display: block;
+  --card-shadow: 0 2px 12px var(--color-shadow);
+  --card-hover-shadow: 0 4px 20px var(--color-shadow);
+}
+
+/* -------- HelloKitty -------- */
+html[data-theme="hellokitty"] {
+  --color-primary: #FF6B8A;
+  --color-primary-dark: #E3170A;
+  --color-primary-light: #FFD4DE;
+  --color-accent: #E3170A;
+  --color-bg: #FFF0F3;
+  --color-bg-secondary: #FFE0E8;
+  --color-card: #FFFFFF;
+  --color-card-border: #FFD0DA;
+  --color-text: #5C1A2A;
+  --color-text-secondary: #9B5068;
+  --color-text-muted: #CC8899;
+  --color-danger: #C0392B;
+  --color-tag-bg: #FFE8EE;
+  --color-tag-active: #FF6B8A;
+  --color-tab-bg: #FFFFFF;
+  --color-tab-active: #FF6B8A;
+  --color-tab-inactive: #CC8899;
+  --color-input-bg: #FFFAFB;
+  --color-input-border: #FFC8D6;
+  --color-shadow: rgba(227, 23, 10, 0.1);
+  --color-divider: #FFD0DA;
+  --color-overlay: rgba(92, 26, 42, 0.5);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-full: 999px;
+  --font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 13px;
+  --font-size-md: 15px;
+  --font-size-lg: 18px;
+  --font-size-xl: 22px;
+  --font-size-xxl: 28px;
+  --decoration-display: block;
+  --card-shadow: 0 2px 12px var(--color-shadow);
+  --card-hover-shadow: 0 4px 20px var(--color-shadow);
+}
+
+/* -------- 极简 -------- */
+html[data-theme="minimal"] {
+  --color-primary: #1A1A1A;
+  --color-primary-dark: #000000;
+  --color-primary-light: #E8E8E8;
+  --color-accent: #555555;
+  --color-bg: #FAFAFA;
+  --color-bg-secondary: #F0F0F0;
+  --color-card: #FFFFFF;
+  --color-card-border: #E5E5E5;
+  --color-text: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-danger: #C0392B;
+  --color-tag-bg: #F0F0F0;
+  --color-tag-active: #1A1A1A;
+  --color-tab-bg: #FFFFFF;
+  --color-tab-active: #1A1A1A;
+  --color-tab-inactive: #999999;
+  --color-input-bg: #FFFFFF;
+  --color-input-border: #DDDDDD;
+  --color-shadow: rgba(0, 0, 0, 0.06);
+  --color-divider: #EEEEEE;
+  --color-overlay: rgba(0, 0, 0, 0.4);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 999px;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 13px;
+  --font-size-md: 15px;
+  --font-size-lg: 18px;
+  --font-size-xl: 22px;
+  --font-size-xxl: 28px;
+  --decoration-display: none;
+  --card-shadow: 0 1px 3px var(--color-shadow);
+  --card-hover-shadow: 0 2px 8px var(--color-shadow);
+}

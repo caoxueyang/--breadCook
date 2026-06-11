@@ -1,0 +1,276 @@
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--color-bg);
+  flex-shrink: 0;
+}
+
+.detail-header-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.detail-content {
+  padding-bottom: 80px;
+}
+
+.detail-hero-img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+}
+
+.detail-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-default-img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-secondary);
+  font-size: 72px;
+  overflow: hidden;
+  position: relative;
+}
+
+.detail-default-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* HelloKitty detail bg */
+.kitty-detail-bg {
+  background: linear-gradient(135deg, #FFE0E8 0%, #FFF0F3 100%);
+}
+
+.kitty-face-lg {
+  width: 100px;
+  height: 100px;
+  opacity: 0.4;
+  object-fit: contain;
+}
+
+/* Minimal detail bg */
+.minimal-detail-bg {
+  background: #F5F5F5;
+}
+
+.detail-body {
+  padding: 20px 16px;
+}
+
+.detail-dish-name {
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.detail-tag {
+  font-size: var(--font-size-sm);
+  padding: 4px 12px;
+  background: var(--color-tag-bg);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-full);
+}
+
+.detail-recipe-section {
+  margin-top: 8px;
+}
+
+.detail-section-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--color-divider);
+}
+
+.detail-recipe-text {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+.detail-recipe-text p {
+  margin-bottom: 4px;
+}
+
+.detail-recipe-text .recipe-header-line {
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 12px;
+}
+
+.detail-recipe-empty {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-divider);
+  flex-shrink: 0;
+}
+
+.detail-action-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s;
+  border: none;
+}
+
+.detail-action-btn:active {
+  transform: scale(0.97);
+}
+
+.detail-action-btn.primary {
+  background: var(--color-primary);
+  color: var(--color-card);
+}
+
+html[data-theme="minimal"] .detail-action-btn.primary {
+  color: #FFFFFF;
+}
+
+.detail-action-btn.danger {
+  background: var(--color-bg-secondary);
+  color: var(--color-danger);
+  border: 1.5px solid var(--color-danger);
+}
+
+.detail-action-btn.want-btn {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  border: 1.5px solid var(--color-divider);
+}
+
+.detail-action-btn.want-btn.active {
+  background: #FFF0F0;
+  color: #E53E3E;
+  border-color: #E53E3E;
+}
+
+/* Password modal */
+.modal-password-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  background: var(--color-bg);
+  outline: none;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.modal-password-input:focus {
+  border-color: var(--color-primary);
+}
+
+.modal-error {
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+  margin: -8px 0 12px;
+}
+
+.modal-btn.confirm-pw {
+  background: var(--color-primary);
+  color: var(--color-card);
+}
+
+html[data-theme="minimal"] .modal-btn.confirm-pw {
+  color: #FFFFFF;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 32px;
+}
+
+.modal-box {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+.modal-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.modal-text {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s;
+  border: none;
+}
+
+.modal-btn.cancel {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+}
+
+.modal-btn.confirm {
+  background: var(--color-danger);
+  color: #FFFFFF;
+}
+
+.modal-btn:active {
+  transform: scale(0.95);
+}

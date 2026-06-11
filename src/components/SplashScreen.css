@@ -1,0 +1,65 @@
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF8E7;
+  animation: splash-fade-in 0.3s ease;
+}
+
+.splash-fade-out {
+  animation: splash-fade-out 0.4s ease forwards;
+}
+
+@keyframes splash-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes splash-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; pointer-events: none; }
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.splash-gif {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 16px;
+  animation: splash-bounce 0.8s ease infinite alternate;
+}
+
+@keyframes splash-bounce {
+  from { transform: scale(0.95); }
+  to { transform: scale(1.05); }
+}
+
+.splash-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #4A3500;
+  letter-spacing: 2px;
+  animation: splash-wave 0.6s ease 0.3s both;
+}
+
+@keyframes splash-wave {
+  0% { transform: translateX(-10px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+.splash-subtitle {
+  font-size: 16px;
+  color: #8B6914;
+  margin-top: -8px;
+  letter-spacing: 4px;
+  animation: splash-wave 0.6s ease 0.6s both;
+}
