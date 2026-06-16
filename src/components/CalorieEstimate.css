@@ -1,0 +1,82 @@
+.calorie-section {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-divider);
+}
+
+.calorie-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.calorie-title {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.calorie-total {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.calorie-rice-ref {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.calorie-rice-ref strong {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.calorie-detail-title {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.calorie-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.calorie-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+}
+
+.calorie-item-emoji {
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.calorie-item-name {
+  flex: 1;
+  color: var(--color-text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calorie-item-cal {
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
+  font-size: var(--font-size-xs);
+}

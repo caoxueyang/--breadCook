@@ -40,6 +40,7 @@ import dessert15 from '../assets/huangbai/82.webp';
 import dessert16 from '../assets/huangbai/83.webp';
 import dessert17 from '../assets/huangbai/84.webp';
 import kittyFace from '../assets/kitty/hello-kitty-face.svg';
+import CalorieEstimate from '../components/CalorieEstimate';
 import './DishDetail.css';
 import './Page.css';
 
@@ -191,6 +192,8 @@ export default function DishDetail() {
               ))}
             </div>
           )}
+
+          <CalorieEstimate recipe={dish.recipe} dishName={dish.name} />
 
           <div className="detail-recipe-section">
             <h2 className="detail-section-title">做法</h2>
