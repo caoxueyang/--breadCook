@@ -3,7 +3,7 @@ const DISHES_KEY = 'menu_app_dishes';
 const THEME_KEY = 'menu_app_theme';
 
 // 预置示例菜品数据
-const SAMPLE_DISHES = [
+export const SAMPLE_DISHES = [
   // 菜品
   {
     id: '1', name: '红烧肉', category: 'dishes',
