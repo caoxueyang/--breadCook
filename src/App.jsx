@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { App as CapacitorApp } from '@capacitor/app';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DataProvider } from './contexts/DataContext';
 import SplashScreen from './components/SplashScreen';
@@ -9,9 +11,59 @@ import DishDetail from './pages/DishDetail';
 import DishEdit from './pages/DishEdit';
 import Settings from './pages/Settings';
 import { useBackButton } from './hooks/useBackButton';
+import './pages/Page.css';
+
+function ExitConfirmModal({ open, onCancel, onConfirm }) {
+  if (!open) return null;
+  return (
+    <div
+      className="modal-overlay"
+      onClick={onCancel}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="modal-box"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <p className="modal-title">退出应用</p>
+        <p className="modal-text">确定要退出应用吗？</p>
+        <div className="modal-actions">
+          <button
+            type="button"
+            className="modal-btn cancel"
+            onClick={onCancel}
+          >
+            取消
+          </button>
+          <button
+            type="button"
+            className="modal-btn confirm"
+            onClick={onConfirm}
+          >
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function AppShell() {
-  useBackButton();
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
+
+  // Android 手势返回 / 硬件返回键 统一拦截
+  useBackButton(() => setShowExitConfirm(true));
+
+  const handleConfirmExit = () => {
+    setShowExitConfirm(false);
+    try {
+      CapacitorApp.exitApp();
+    } catch (_) {
+      // 浏览器调试时无此 API，忽略
+    }
+  };
+
   return (
     <SplashScreen>
       <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -27,6 +79,11 @@ function AppShell() {
         </div>
         <TabBar />
       </div>
+      <ExitConfirmModal
+        open={showExitConfirm}
+        onCancel={() => setShowExitConfirm(false)}
+        onConfirm={handleConfirmExit}
+      />
     </SplashScreen>
   );
 }

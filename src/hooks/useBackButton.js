@@ -8,9 +8,12 @@ const MAIN_PATHS = ['/favs', '/dishes', '/drinks', '/desserts'];
 /**
  * 监听 Android 系统返回键 / 滑手势：
  * - 子页面 → 返回上一页
- * - 主页面 → 弹"确定退出"提示
+ * - 主页面 → 调用 onRequestExit（通常弹退出确认）
+ * - 仅在 Android 原生环境启用，浏览器调试时跳过
+ *
+ * @param {() => void} onRequestExit  在主 tab 页点击返回时触发
  */
-export function useBackButton() {
+export function useBackButton(onRequestExit) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,11 +25,9 @@ export function useBackButton() {
     let listenerHandle = null;
     const handle = async () => {
       const path = location.pathname;
-      // 已在主 tab 页：弹退出确认
+      // 已在主 tab 页：请求退出
       if (MAIN_PATHS.includes(path)) {
-        if (window.confirm('确定要退出应用吗？')) {
-          try { await App.exitApp(); } catch (_) { /* ignore */ }
-        }
+        if (typeof onRequestExit === 'function') onRequestExit();
         return;
       }
       // 子页面：返回上一页
@@ -46,5 +47,5 @@ export function useBackButton() {
       if (listenerHandle && listenerHandle.remove) listenerHandle.remove();
       document.removeEventListener('backbutton', onBack, false);
     };
-  }, [navigate, location.pathname]);
+  }, [navigate, location.pathname, onRequestExit]);
 }

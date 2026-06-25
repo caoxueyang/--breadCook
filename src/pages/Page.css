@@ -594,3 +594,76 @@ html[data-theme="minimal"] .seasonal-month-title {
 .seasonal-month-block .seasonal-section:first-of-type {
   margin-top: 0;
 }
+
+/* ========== 自定义确认弹窗 ========== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 24px;
+}
+
+.modal-box {
+  background: var(--color-card);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 340px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  animation: modalScaleIn 0.2s;
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.modal-text {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal-btn.cancel {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+}
+
+.modal-btn.confirm {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+.modal-btn:active {
+  transform: scale(0.97);
+}
+
+@keyframes modalScaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
