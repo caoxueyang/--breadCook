@@ -33,6 +33,10 @@ echo    [1] 打包 APK
 echo =============================================
 echo.
 
+echo [0/4] 自动递增 versionCode...
+call node bump-versioncode.cjs || goto ERR
+
+echo.
 echo [1/4] 构建 dist...
 call npm run build || goto ERR
 
@@ -55,7 +59,7 @@ echo.
 echo =============================================
 echo    [完成] APK 打包成功
 echo    文件: %CD%\面包餐厅.apk
-echo    安装: adb install 面包餐厅.apk
+echo    说明: APK传到手机上直接安装即可自动覆盖旧版
 echo =============================================
 goto END
 
@@ -115,6 +119,10 @@ echo    一键全做 (dist + APK + GitHub)
 echo =============================================
 echo.
 
+echo [0/4] 自动递增 versionCode...
+call node bump-versioncode.cjs || goto ERR
+
+echo.
 echo [1/4] 构建 dist...
 call npm run build || goto ERR
 
@@ -129,7 +137,14 @@ if not exist "android\app\build\outputs\apk\debug\app-debug.apk" (
     goto ERR
 )
 copy /Y "android\app\build\outputs\apk\debug\app-debug.apk" "面包餐厅.apk" >nul
-echo   OK: APK 已拷贝
+echo.
+echo    OK: APK 已拷贝
+echo.
+echo =============================================
+echo    [完成] APK 打包成功
+echo    文件: %CD%\面包餐厅.apk
+echo    说明: APK传到手机上直接安装即可自动覆盖旧版
+echo =============================================
 
 echo [3/4] 准备提交到 GitHub...
 set /p msg=提交说明 (直接回车 = update):
