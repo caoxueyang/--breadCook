@@ -10,6 +10,11 @@ import {
   getSeasonalFruitIngredients,
   dishMatchesSeasonal,
 } from '../utils/seasonal';
+import {
+  getPesticideRisk,
+  RISK_LABELS,
+  RISK_COLORS,
+} from '../data/pesticideRisk';
 import './Page.css';
 
 const CATEGORY_MAP = {
@@ -168,7 +173,7 @@ function SeasonalMonthBlock({ monthData, isDish }) {
               <div className="seasonal-section-title">🥬 蔬野菜</div>
               <div className="seasonal-tags">
                 {veggies.map(name => (
-                  <span key={name} className="seasonal-tag">{name}</span>
+                  <SeasonalTagWithRisk key={name} name={name} />
                 ))}
               </div>
             </div>
@@ -191,7 +196,7 @@ function SeasonalMonthBlock({ monthData, isDish }) {
               <div className="seasonal-section-title">🍓 威海本地应季水果</div>
               <div className="seasonal-tags">
                 {fruitsLocal.map(name => (
-                  <span key={name} className="seasonal-tag">{name}</span>
+                  <SeasonalTagWithRisk key={name} name={name} />
                 ))}
               </div>
             </div>
@@ -201,10 +206,11 @@ function SeasonalMonthBlock({ monthData, isDish }) {
               <div className="seasonal-section-title">🌏 其他产区应季水果</div>
               <div className="seasonal-tags">
                 {fruitsOther.map(f => (
-                  <span key={f.name} className="seasonal-tag seasonal-tag-fruit">
-                    <span className="seasonal-tag-name">{f.name}</span>
-                    <span className="seasonal-tag-origin">· {f.origin}</span>
-                  </span>
+                  <SeasonalTagWithRisk
+                    key={f.name}
+                    name={f.name}
+                    origin={f.origin}
+                  />
                 ))}
               </div>
             </div>
@@ -212,5 +218,39 @@ function SeasonalMonthBlock({ monthData, isDish }) {
         </>
       )}
     </div>
+  );
+}
+
+/** 单个应季食材标签 + 农残风险指示器 */
+function SeasonalTagWithRisk({ name, origin }) {
+  const risk = getPesticideRisk(name);
+  const colors = risk ? RISK_COLORS[risk] : null;
+  const label = risk ? RISK_LABELS[risk] : null;
+
+  return (
+    <span
+      className={`seasonal-tag ${risk ? 'has-risk' : ''}${origin ? ' seasonal-tag-fruit' : ''}`}
+      style={risk ? {
+        '--risk-bg': colors.bg,
+        '--risk-border': colors.border,
+        '--risk-text': colors.text,
+      } : undefined}
+      title={label ? `${label.desc}` : undefined}
+    >
+      {origin ? (
+        <>
+          <span className="seasonal-tag-name">{name}</span>
+          <span className="seasonal-tag-origin">· {origin}</span>
+        </>
+      ) : (
+        name
+      )}
+      {risk && (
+        <span
+          className="risk-dot"
+          style={{ backgroundColor: colors.text }}
+        />
+      )}
+    </span>
   );
 }

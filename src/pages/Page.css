@@ -531,6 +531,34 @@ html[data-theme="minimal"] .seasonal-tag {
   color: #1A1A1A;
 }
 
+/* 应季食材标签 + 农残风险指示器 */
+.seasonal-tag.has-risk {
+  background: var(--risk-bg, rgba(255, 255, 255, 0.85)) !important;
+  border-color: var(--risk-border, rgba(245, 215, 110, 0.4)) !important;
+  padding-right: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 农残风险小圆点 */
+.risk-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+/* 水果标签带产地时，风险圆点放在最后对齐 */
+.seasonal-tag-fruit.has-risk {
+  padding-right: 8px;
+}
+.seasonal-tag-fruit.has-risk .risk-dot {
+  margin-left: 2px;
+}
+
 /* 应季水果：品种 + 产地 */
 .seasonal-tag-fruit {
   display: inline-flex;
