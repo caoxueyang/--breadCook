@@ -41,6 +41,7 @@ import dessert16 from '../assets/huangbai/83.webp';
 import dessert17 from '../assets/huangbai/84.webp';
 import kittyFace from '../assets/kitty/hello-kitty-face.svg';
 import CalorieEstimate from '../components/CalorieEstimate';
+import { parseRecipeIngredients, RISK_LABELS, RISK_COLORS } from '../data/pesticideRisk';
 import './DishDetail.css';
 import './Page.css';
 
@@ -197,13 +198,57 @@ export default function DishDetail() {
 
           <div className="detail-recipe-section">
             <h2 className="detail-section-title">做法</h2>
-            <div className="detail-recipe-text">
-              {dish.recipe ? dish.recipe.split('\n').map((line, i) => (
-                <p key={i} className={line.startsWith('做法') || line.startsWith('材料') ? 'recipe-header-line' : ''}>
-                  {line}
-                </p>
-              )) : <p className="detail-recipe-empty">暂无做法记录</p>}
-            </div>
+            {(() => {
+              if (!dish.recipe) {
+                return <p className="detail-recipe-empty">暂无做法记录</p>;
+              }
+              const lines = dish.recipe.split('\n');
+              const ingredients = parseRecipeIngredients(dish.recipe);
+              // 定位 "材料" 行的下标集合（同一行可能多行描述）
+              const matLineIdx = lines.findIndex(l => /^材料[：:]/.test(l));
+              return (
+                <>
+                  {ingredients.length > 0 && (
+                    <div className="ingredients-flow">
+                      {ingredients.map((ing, i) => {
+                        const colors = ing.risk ? RISK_COLORS[ing.risk] : null;
+                        return (
+                          <span
+                            key={i}
+                            className={`ingredient-token${ing.risk ? ' has-risk' : ''}`}
+                            style={ing.risk ? {
+                              '--risk-bg': colors.bg,
+                              '--risk-border': colors.border,
+                              '--risk-text': colors.text
+                            } : undefined}
+                            title={ing.risk ? `${RISK_LABELS[ing.risk].label} · ${RISK_LABELS[ing.risk].desc}` : undefined}
+                          >
+                            {ing.raw}
+                            {ing.risk && (
+                              <span
+                                className="risk-dot"
+                                style={{ backgroundColor: colors.text }}
+                              />
+                            )}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
+                  <div className="detail-recipe-text">
+                    {lines.map((line, i) => {
+                      // 跳过 "材料" 那行（已渲染为 ingredient-token）
+                      if (i === matLineIdx) return null;
+                      return (
+                        <p key={i} className={line.startsWith('做法') || line.startsWith('材料') ? 'recipe-header-line' : ''}>
+                          {line}
+                        </p>
+                      );
+                    })}
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </div>
       </div>

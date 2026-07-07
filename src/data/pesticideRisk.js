@@ -157,3 +157,43 @@ export const RISK_COLORS = {
   moderate: { bg: '#FFF8E1', border: '#FFD54F', text: '#F57F17' },
   high: { bg: '#FFEBEE', border: '#EF9A9A', text: '#C62828' },
 };
+
+/**
+ * 从一个食材原始文本中提取核心名称
+ * 去掉前导的 “1个/200g/2根/少许/适量” 等数量词
+ * 例如 "五花肉500g" -> "五花肉"，"番茄2个" -> "番茄"
+ */
+function cleanIngredientName(raw) {
+  if (!raw) return '';
+  let name = String(raw).trim();
+  // 去掉特殊前缀词
+  name = name.replace(/^(少许|适量|若干|一点点|几个)/, '');
+  // 从第一个数字处截断（处理 "五花肉500g" / "番茄2个" / "苹果2个"）
+  const m = name.match(/^([^\d]+)/);
+  if (m && m[1].trim()) name = m[1].trim();
+  // 去掉括号说明
+  name = name.replace(/[（(][^）)]*[）)]/g, '');
+  return name.trim();
+}
+
+/**
+ * 解析做法的"材料"段，提取每个食材及农残风险
+ * @param {string} recipe - 做法原文
+ * @returns {Array<{raw:string, name:string, risk:('low'|'moderate'|'high'|null)}>}
+ */
+export function parseRecipeIngredients(recipe) {
+  if (!recipe) return [];
+  const match = recipe.match(/材料[：:]\s*([\s\S]*?)(?:\n\s*\n|\n做法|$)/);
+  if (!match) return [];
+  const line = match[1].replace(/\n/g, '').trim();
+  // 顿号或中英文逗号分隔
+  const parts = line.split(/[、，,]/).map(s => s.trim()).filter(Boolean);
+  return parts.map(raw => {
+    const name = cleanIngredientName(raw);
+    return {
+      raw,
+      name,
+      risk: name ? getPesticideRisk(name) : null,
+    };
+  });
+}
