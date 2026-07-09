@@ -194,7 +194,7 @@ export default function DishDetail() {
             </div>
           )}
 
-          <CalorieEstimate recipe={dish.recipe} dishName={dish.name} />
+          <CalorieEstimate recipe={dish.recipe} servings={dish.servings} dishName={dish.name} />
 
           <div className="detail-recipe-section">
             <h2 className="detail-section-title">做法</h2>

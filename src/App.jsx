@@ -5,6 +5,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { DataProvider } from './contexts/DataContext';
 import SplashScreen from './components/SplashScreen';
 import TabBar from './components/TabBar';
+import DietTracker from './components/DietTracker';
 import Home from './pages/Home';
 import Category from './pages/Category';
 import DishDetail from './pages/DishDetail';
@@ -79,6 +80,7 @@ function AppShell() {
         </div>
         <TabBar />
       </div>
+      <DietTracker />
       <ExitConfirmModal
         open={showExitConfirm}
         onCancel={() => setShowExitConfirm(false)}

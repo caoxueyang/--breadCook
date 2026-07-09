@@ -669,6 +669,10 @@ function estimateCookingOil(recipe, meatGrams = 0, vegGrams = 0) {
   if (hasText(/(?:爆炒|干煸)/)) {
     return { oilGrams: 20, type: '爆炒' };
   }
+  // 红烧/焖（优先级高：避免“红烧肉”里出现“炒糖色”关键词被误判为清炒）
+  if (hasText(/(?:红烧|焖|慢炖)/)) {
+    return { oilGrams: 10, type: '红烧' };
+  }
   // 清炒/滑炒
   if (hasText(/(?:清炒|滑炒|大火快炒|翻炒|煸炒|炒香|炒至|翻炒均匀)/)) {
     return { oilGrams: 12, type: '清炒' };
@@ -676,10 +680,6 @@ function estimateCookingOil(recipe, meatGrams = 0, vegGrams = 0) {
   // 煎
   if (hasText(/(?:煎至两面金黄|煎一下|煎熟|中小火煎|小火煎)/)) {
     return { oilGrams: 5, type: '油煎' };
-  }
-  // 红烧/焖
-  if (hasText(/(?:红烧|焖|慢炖)/)) {
-    return { oilGrams: 10, type: '红烧' };
   }
   // 凉拌
   if (hasText(/(?:凉拌|拌入|拌匀)/)) {
@@ -696,9 +696,10 @@ function estimateCookingOil(recipe, meatGrams = 0, vegGrams = 0) {
 /**
  * 估算一道菜的总热量
  * @param {string} recipe - 做法文本
- * @returns {{ total: number, items: Array, riceBowls: number, displayTotal: string, displayRice: string, hasData: boolean }}
+ * @param {number} [servings] - 几人份（不传则按1份计）
+ * @returns {{ total: number, perServing: number, servings: number, items: Array, riceBowls: number, displayTotal: string, displayPerServing: string, displayRice: string, hasData: boolean }}
  */
-export function estimateCalories(recipe) {
+export function estimateCalories(recipe, servings = 1) {
   const items = extractIngredients(recipe);
   const results = [];
   let total = 0;
@@ -741,14 +742,20 @@ export function estimateCalories(recipe) {
     total += oilCal;
   }
 
+  // 按份数拆解
+  const safeServings = Math.max(1, Number(servings) || 1);
+  const perServing = Math.round(total / safeServings);
   const RICE_CAL = 100; // 一碗米饭约100卡
-  const riceBowls = total > 0 ? Math.round(total / RICE_CAL) : 0;
+  const riceBowls = perServing > 0 ? Math.round(perServing / RICE_CAL) : 0;
 
   return {
     total,
+    perServing,
+    servings: safeServings,
     items: results,
     riceBowls,
     displayTotal: total > 0 ? `约 ${total} 卡` : '',
+    displayPerServing: perServing > 0 ? `每份约 ${perServing} 卡` : '',
     displayRice: riceBowls > 0 ? `≈ ${riceBowls} 碗米饭 🍚` : '',
     hasData: total > 0,
   };

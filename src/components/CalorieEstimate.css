@@ -25,6 +25,40 @@
   color: var(--color-primary);
 }
 
+.calorie-per-serving-main {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--color-primary);
+}
+.calorie-per-serving-label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  opacity: 0.7;
+}
+.calorie-per-serving-main strong {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+}
+.calorie-per-serving-main .calorie-unit {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.calorie-servings-info {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0 0 8px 0;
+}
+.calorie-servings-info b {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
 .calorie-rice-ref {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);

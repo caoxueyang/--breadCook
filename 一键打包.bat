@@ -1,5 +1,7 @@
 @echo off
 chcp 65001 >nul
+REM Use Node 24 (Vite 5 needs Node 18+, otherwise crypto.getRandomValues fails)
+set "PATH=C:\Program Files\nodejs;%PATH%"
 cd /d "%~dp0"
 
 :MENU
