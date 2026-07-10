@@ -213,14 +213,49 @@ html[data-theme="minimal"] .dt-fab-emoji {
   height: 6px;
   background: var(--color-divider);
   border-radius: 3px;
-  overflow: hidden;
+  overflow: visible;
   margin-bottom: 4px;
+  position: relative;
 }
 .dt-progress-fill {
   height: 100%;
   border-radius: 3px;
   transition: width 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
+/* 蛋白参考线标线（min/rec/max） */
+.dt-progress-marker {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  z-index: 2;
+  pointer-events: auto;
+  cursor: help;
+}
+.dt-progress-marker::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1px;
+  opacity: 0.85;
+}
+.dt-progress-marker-min::before { background: #3498DB; }
+.dt-progress-marker-rec::before { background: #27AE60; height: 130%; top: -2px; }
+.dt-progress-marker-max::before { background: #E74C3C; }
+.dt-progress-marker::after {
+  content: attr(data-label);
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+  display: none;
+}
+.dt-progress-marker:hover::after { display: block; }
 .dt-macro-foot {
   display: flex;
   justify-content: space-between;
@@ -230,6 +265,38 @@ html[data-theme="minimal"] .dt-fab-emoji {
 .dt-macro-remaining { color: var(--color-text-secondary); }
 .dt-macro-over { color: var(--color-danger); font-weight: 600; }
 .dt-macro-pct { font-weight: 600; }
+.dt-macro-meal {
+  display: block;
+  margin: 6px 0 2px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+.dt-meal-qty {
+  color: #2C7A7B;
+  font-weight: 700;
+  font-size: 13px;
+  margin: 0 1px;
+}
+.dt-meal-plus {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin: 0 4px;
+  opacity: 0.6;
+}
+.dt-meal-hint {
+  color: var(--color-text-muted);
+  font-size: 10px;
+  margin-left: 8px;
+  opacity: 0.7;
+}
+.dt-desc-divider {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin: 0 6px 0 8px;
+  opacity: 0.5;
+}
 
 /* ---------- 操作按钮 ---------- */
 .dt-actions {
@@ -291,6 +358,10 @@ html[data-theme="minimal"] .dt-btn-primary {
   font-weight: 700;
   color: var(--color-text);
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 .dt-quick-targets {
   display: flex;
@@ -307,7 +378,21 @@ html[data-theme="minimal"] .dt-btn-primary {
   color: var(--color-text);
   border: 1px solid var(--color-border);
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
+.dt-quick-btn-icon { font-size: 16px; line-height: 1; }
+.dt-quick-btn-label { font-size: 12px; font-weight: 600; }
+.dt-quick-btn-kcal {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #319795;
+  letter-spacing: 0.2px;
+  opacity: 0.85;
+}
+.dt-quick-btn:hover .dt-quick-btn-kcal { opacity: 1; color: #2C7A7B; }
 .dt-quick-btn:active {
   transform: scale(0.97);
   background: var(--color-primary-light);
@@ -369,6 +454,26 @@ html[data-theme="minimal"] .dt-btn-primary {
   display: flex;
   gap: 8px;
   margin-top: 12px;
+  position: sticky;
+  bottom: -20px;
+  z-index: 100;
+  background: var(--color-bg-secondary, #f7fafc);
+  padding: 10px 12px;
+  margin-left: -12px;
+  margin-right: -12px;
+  margin-bottom: -12px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
+}
+.dt-form-actions::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(to bottom, rgba(247, 250, 252, 0) 0%, var(--color-bg-secondary, #f7fafc) 100%);
+  pointer-events: none;
 }
 
 /* ---------- 剩余提示 ---------- */
@@ -489,6 +594,127 @@ html[data-theme="minimal"] .dt-kcal-value {
   gap: 6px;
   margin-bottom: 8px;
 }
+.dt-meal-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  border-radius: 10px;
+  border-left: 3px solid #4299E1;
+  margin-bottom: 4px;
+  transition: all 0.2s;
+}
+.dt-meal-group.is-collapsed {
+  padding: 6px 10px;
+  background: var(--color-card, #fff);
+}
+.dt-meal-group.is-collapsed .dt-meal-items {
+  display: none;
+}
+.dt-meal-group[data-meal="breakfast"] { border-left-color: #F6A623; background: linear-gradient(135deg, #fffaf0 0%, #fef3c7 100%); }
+.dt-meal-group[data-meal="lunch"]     { border-left-color: #E74C3C; background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%); }
+.dt-meal-group[data-meal="dinner"]    { border-left-color: #805AD5; background: linear-gradient(135deg, #faf5ff 0%, #e9d8fd 100%); }
+.dt-meal-group[data-meal="snack"]     { border-left-color: #319795; background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%); }
+.dt-meal-group[data-meal="_other"]    { border-left-color: #718096; background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%); }
+.dt-meal-group.is-collapsed[data-meal] { background: var(--color-card, #fff); }
+.dt-meal-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2D3748;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  padding: 0 4px;
+}
+.dt-meal-clickable {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px !important;
+  margin: -4px -6px 2px;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s;
+}
+.dt-meal-clickable:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+.dt-meal-clickable:active {
+  background: rgba(0, 0, 0, 0.08);
+  transform: scale(0.99);
+}
+.dt-meal-arrow {
+  display: inline-block;
+  font-size: 10px;
+  color: var(--color-text-muted, #718096);
+  transition: transform 0.2s;
+  width: 12px;
+  text-align: center;
+}
+.dt-meal-group.is-collapsed .dt-meal-arrow {
+  transform: rotate(0deg);
+}
+.dt-meal-name {
+  font-size: 13px;
+}
+.dt-meal-count {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-muted, #718096);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.dt-meal-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: dt-meal-expand 0.2s ease-out;
+}
+@keyframes dt-meal-expand {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- 已选 X 项 · 总开关 ---------- */
+.dt-eaten-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px 4px;
+  border-bottom: 1px dashed var(--color-border, #e2e8f0);
+  margin-bottom: 6px;
+}
+.dt-eaten-header-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text, #2d3748);
+}
+.dt-eaten-header-title b {
+  color: #319795;
+  font-size: 14px;
+  margin: 0 2px;
+}
+.dt-eaten-toggle-all {
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #319795;
+  background: #e6fffa;
+  border: 1px solid #b2f5ea;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dt-eaten-toggle-all:hover {
+  background: #b2f5ea;
+  border-color: #319795;
+}
+.dt-eaten-toggle-all:active {
+  transform: scale(0.95);
+}
 .dt-food-item {
   display: flex;
   align-items: center;
@@ -523,7 +749,8 @@ html[data-theme="minimal"] .dt-kcal-value {
   line-height: 1.2;
   white-space: nowrap;
 }
-.dt-food-qty {
+.dt-food-qty,
+.dt-food-grams {
   display: flex;
   align-items: center;
   gap: 2px;
@@ -531,6 +758,34 @@ html[data-theme="minimal"] .dt-kcal-value {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   padding: 2px;
+}
+.dt-grams-input {
+  width: 52px;
+  height: 24px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text);
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 0;
+  -moz-appearance: textfield;
+}
+.dt-grams-input::-webkit-outer-spin-button,
+.dt-grams-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.dt-grams-input:focus {
+  background: #f0f9ff;
+  border-radius: 4px;
+}
+.dt-grams-unit {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  margin: 0 2px 0 1px;
 }
 .dt-qty-btn {
   width: 24px;
@@ -634,6 +889,218 @@ html[data-theme="minimal"] .dt-kcal-value {
 .dt-picker-toggle:active {
   transform: scale(0.98);
 }
+.dt-picker-controls {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  align-items: stretch;
+}
+.dt-picker-search {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 12px;
+  border: 1.5px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-sm);
+  background: var(--color-card, #fff);
+  color: var(--color-text, #2d3748);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+  min-width: 0;
+}
+.dt-picker-search:focus {
+  border-color: #319795;
+  box-shadow: 0 0 0 2px rgba(49, 151, 149, 0.15);
+}
+.dt-picker-search::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  background: var(--color-border, #e2e8f0);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.dt-picker-cat-select {
+  flex: 0 0 auto;
+  padding: 7px 8px;
+  font-size: 12px;
+  border: 1.5px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-sm);
+  background: var(--color-card, #fff);
+  color: var(--color-text, #2d3748);
+  cursor: pointer;
+  outline: none;
+  min-width: 90px;
+  max-width: 120px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23319795' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 22px;
+}
+.dt-picker-cat-select:focus {
+  border-color: #319795;
+  box-shadow: 0 0 0 2px rgba(49, 151, 149, 0.15);
+}
+.dt-picker-empty {
+  padding: 16px 10px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-light, #718096);
+  background: #f7fafc;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--color-border, #e2e8f0);
+}
+
+/* ---------- 克数输入 modal ---------- */
+.dt-grams-modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: dt-fade-in 0.15s ease-out;
+}
+@keyframes dt-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.dt-grams-modal {
+  background: var(--color-card, #fff);
+  border-radius: var(--radius-md, 10px);
+  padding: 18px 16px 16px;
+  width: 90%;
+  max-width: 340px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  animation: dt-modal-in 0.2s ease-out;
+}
+@keyframes dt-modal-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.dt-grams-modal-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text, #2d3748);
+  text-align: center;
+  margin-bottom: 12px;
+}
+.dt-grams-modal-food {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 14px;
+  border-left: 3px solid #319795;
+}
+.dt-grams-modal-icon { font-size: 24px; }
+.dt-grams-modal-name { font-size: 14px; font-weight: 700; color: var(--color-text); }
+.dt-grams-modal-size { font-size: 11px; color: var(--color-text-muted); margin-left: auto; }
+.dt-grams-modal-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.dt-grams-step {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--color-border, #e2e8f0);
+  background: var(--color-card, #fff);
+  color: var(--color-text, #2d3748);
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dt-grams-step:active {
+  background: var(--color-primary-light, #e6fffa);
+  transform: scale(0.95);
+}
+.dt-grams-modal-input {
+  width: 100px;
+  height: 44px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #319795;
+  border: 2px solid #319795;
+  background: #f0fdfa;
+  border-radius: var(--radius-md, 10px);
+  outline: none;
+  -moz-appearance: textfield;
+  padding: 0;
+}
+.dt-grams-modal-input::-webkit-outer-spin-button,
+.dt-grams-modal-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.dt-grams-modal-input:focus {
+  border-color: #2C7A7B;
+  box-shadow: 0 0 0 3px rgba(49, 151, 149, 0.2);
+}
+.dt-grams-modal-unit {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-muted, #718096);
+  margin-left: -2px;
+}
+.dt-grams-modal-presets {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.dt-grams-preset {
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text, #2d3748);
+  background: var(--color-card, #fff);
+  border: 1.5px solid var(--color-border, #e2e8f0);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dt-grams-preset:hover {
+  border-color: #319795;
+  color: #319795;
+}
+.dt-grams-preset.active {
+  background: #319795;
+  color: #fff;
+  border-color: #319795;
+}
+.dt-grams-modal-preview {
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text, #2d3748);
+  background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+  padding: 10px 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  line-height: 1.6;
+  border: 1px solid #feb2b2;
+}
+.dt-grams-modal-actions {
+  display: flex;
+  gap: 8px;
+}
+.dt-grams-modal-actions .modal-btn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 13px;
+}
 .dt-picker-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -702,6 +1169,12 @@ html[data-theme="minimal"] .dt-kcal-value {
   font-weight: 600;
   font-size: 11.5px;
   opacity: 0.85;
+}
+.dt-desc-qty-extra {
+  color: #2C7A7B;
+  font-weight: 600;
+  font-size: 11.5px;
+  opacity: 0.95;
 }
 .dt-desc-or {
   color: var(--color-text-muted);
@@ -942,4 +1415,444 @@ html[data-theme="hellokitty"] .dt-unified-kcal b {
     height: 48px;
     bottom: 76px;
   }
+}
+
+/* ---------- 碳水多代表构成 + 隐藏碳水告警（方案 A + 方案 C） ---------- */
+.dt-carbs-breakdown {
+  background: linear-gradient(135deg, #FFF6E5 0%, #FFEFD5 100%);
+  border: 1px solid #F6C77B;
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  margin: 10px 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #6B4913;
+}
+html[data-theme="hellokitty"] .dt-carbs-breakdown {
+  background: linear-gradient(135deg, #FFF0F5 0%, #FFE0EC 100%);
+  border-color: #F4A6C7;
+  color: #8B3A62;
+}
+.dt-carbs-breakdown.has-hidden {
+  background: linear-gradient(135deg, #FFF1E0 0%, #FFE0B8 100%);
+  border-color: #E89A4F;
+  box-shadow: 0 0 0 1px rgba(232, 154, 79, 0.15);
+}
+.dt-carbs-breakdown-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: #8C5A1A;
+}
+html[data-theme="hellokitty"] .dt-carbs-breakdown-title {
+  color: #B0507E;
+}
+.dt-carbs-hidden-badge {
+  background: #E74C3C;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
+  animation: dt-hidden-pulse 1.6s ease-in-out infinite;
+}
+@keyframes dt-hidden-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.5); }
+  50%      { transform: scale(1.05); box-shadow: 0 0 0 4px rgba(231, 76, 60, 0); }
+}
+.dt-carbs-breakdown-text {
+  color: #6B4913;
+  word-break: break-word;
+}
+html[data-theme="hellokitty"] .dt-carbs-breakdown-text {
+  color: #8B3A62;
+}
+.dt-carbs-breakdown-total {
+  margin-left: 6px;
+  color: #B8740E;
+  font-weight: 600;
+  font-size: 12px;
+}
+html[data-theme="hellokitty"] .dt-carbs-breakdown-total {
+  color: #C13584;
+}
+.dt-carbs-hidden-tip {
+  margin-top: 6px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: var(--radius-sm);
+  font-size: 11.5px;
+  color: #8C5A1A;
+  line-height: 1.6;
+}
+html[data-theme="hellokitty"] .dt-carbs-hidden-tip {
+  background: rgba(255, 255, 255, 0.6);
+  color: #B0507E;
+}
+.dt-carbs-hidden-item {
+  display: inline-block;
+  margin-right: 2px;
+  font-weight: 600;
+}
+
+/* ---------- 宏量素多行构成（重构后 MacroBreakdown 专用） ---------- */
+.dt-carbs-breakdown-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 2px 0;
+  flex-wrap: wrap;
+}
+.dt-carbs-breakdown-line-label {
+  flex: 0 0 auto;
+  font-weight: 700;
+  color: #8C5A1A;
+  min-width: 42px;
+}
+html[data-theme="hellokitty"] .dt-carbs-breakdown-line-label {
+  color: #B0507E;
+}
+.dt-carbs-breakdown-line-text {
+  flex: 1 1 auto;
+  word-break: break-word;
+  color: #6B4913;
+}
+html[data-theme="hellokitty"] .dt-carbs-breakdown-line-text {
+  color: #8B3A62;
+}
+
+/* ---------- 总大卡进度条 ---------- */
+.dt-form-hint {
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  margin: -4px 0 10px;
+  word-break: break-word;
+}
+.dt-macro-row-kcal {
+  margin-top: 4px;
+  padding: 10px 12px;
+  background: linear-gradient(135deg, #FFF8F0 0%, #FFE9D6 100%);
+  border: 1px solid #FFB47A;
+  border-radius: var(--radius-md);
+}
+html[data-theme="hellokitty"] .dt-macro-row-kcal {
+  background: linear-gradient(135deg, #FFF5F0 0%, #FFE0E9 100%);
+  border-color: #F4A6C7;
+}
+.dt-macro-row-kcal.is-over {
+  background: linear-gradient(135deg, #FFE5E5 0%, #FFCCCC 100%);
+  border-color: #E74C3C;
+}
+.dt-macro-row-kcal .dt-macro-label {
+  font-weight: 800;
+  color: #B85400;
+}
+html[data-theme="hellokitty"] .dt-macro-row-kcal .dt-macro-label {
+  color: #B0507E;
+}
+.dt-macro-row-kcal .dt-macro-numbers b {
+  color: #B85400;
+}
+html[data-theme="hellokitty"] .dt-macro-row-kcal .dt-macro-numbers b {
+  color: #B0507E;
+}
+
+/* ============================================
+   蛋白参考档位切换器（训练者 vs 普通居民）
+   - 切换按钮 + 体重/体脂/活动量微调
+   - 蛋白行专属：g/kg 状态 + 参考区段
+   ============================================ */
+.dt-profile-switcher {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--color-border, #e2e8f0);
+}
+html[data-theme="hellokitty"] .dt-profile-switcher {
+  background: linear-gradient(135deg, #FFF0F5 0%, #FFE0EC 100%);
+  border-color: #F4A6C7;
+}
+html[data-theme="minimal"] .dt-profile-switcher {
+  background: #FAFAFA;
+  border: 1px solid #E5E5E5;
+}
+.dt-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.dt-profile-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.dt-profile-toggle {
+  display: flex;
+  flex: 1 1 auto;
+  background: var(--color-card, #fff);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  min-width: 0;
+}
+html[data-theme="hellokitty"] .dt-profile-toggle {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: #F4A6C7;
+}
+.dt-profile-tab {
+  flex: 1 1 0;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  text-align: center;
+  min-width: 0;
+}
+.dt-profile-tab:hover {
+  color: var(--color-text);
+  background: rgba(0, 0, 0, 0.04);
+}
+.dt-profile-tab.active {
+  background: var(--color-primary, #319795);
+  color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+html[data-theme="hellokitty"] .dt-profile-tab.active {
+  background: linear-gradient(135deg, #FF8FAE 0%, #FF6B9D 100%);
+  color: #FFFFFF;
+}
+html[data-theme="minimal"] .dt-profile-tab.active {
+  background: #1A1A1A;
+  color: #FFFFFF;
+}
+.dt-profile-edit {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-card, #fff);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  line-height: 1;
+}
+.dt-profile-edit:hover {
+  background: var(--color-primary-light, #e6fffa);
+  color: var(--color-primary-dark, #2C7A7B);
+  border-color: var(--color-primary, #319795);
+}
+.dt-profile-edit:active {
+  transform: scale(0.92);
+}
+
+/* 自动推荐提示 banner */
+.dt-profile-hint {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  background: linear-gradient(135deg, #FFF8E0 0%, #FFEFC0 100%);
+  border: 1px solid #F6C77B;
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  word-break: break-word;
+}
+html[data-theme="hellokitty"] .dt-profile-hint {
+  background: linear-gradient(135deg, #FFF0F5 0%, #FFE0EC 100%);
+  border-color: #F4A6C7;
+  color: #8B3A62;
+}
+html[data-theme="minimal"] .dt-profile-hint {
+  background: #F5F5F5;
+  border: 1px solid #E5E5E5;
+  color: #1A1A1A;
+}
+.dt-profile-hint b {
+  color: var(--color-text);
+  font-weight: 700;
+  margin: 0 2px;
+}
+html[data-theme="hellokitty"] .dt-profile-hint b {
+  color: #C13584;
+}
+.dt-profile-apply {
+  margin-left: auto;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: var(--color-primary, #319795);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.dt-profile-apply:hover {
+  background: var(--color-primary-dark, #2C7A7B);
+}
+.dt-profile-apply:active {
+  transform: scale(0.95);
+}
+html[data-theme="hellokitty"] .dt-profile-apply {
+  background: linear-gradient(135deg, #FF8FAE 0%, #FF6B9D 100%);
+}
+html[data-theme="minimal"] .dt-profile-apply {
+  background: #1A1A1A;
+}
+
+/* 体重/体脂/活动量 快速表单 */
+.dt-profile-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+  background: var(--color-card, #fff);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  border: 1px dashed var(--color-border, #e2e8f0);
+  animation: dt-form-in 0.2s ease-out;
+}
+html[data-theme="hellokitty"] .dt-profile-fields {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: #F4A6C7;
+}
+html[data-theme="minimal"] .dt-profile-fields {
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+}
+.dt-profile-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted, #718096);
+}
+.dt-profile-fields label > span {
+  font-size: 10.5px;
+  color: var(--color-text-muted, #718096);
+  letter-spacing: 0.3px;
+}
+.dt-profile-fields input,
+.dt-profile-fields select {
+  padding: 6px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text, #2d3748);
+  background: var(--color-bg-secondary, #f7fafc);
+  border: 1.5px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-sm, 6px);
+  outline: none;
+  transition: all 0.15s;
+  width: 100%;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  font-family: inherit;
+}
+.dt-profile-fields input::-webkit-outer-spin-button,
+.dt-profile-fields input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.dt-profile-fields input:focus,
+.dt-profile-fields select:focus {
+  border-color: var(--color-primary, #319795);
+  box-shadow: 0 0 0 2px rgba(49, 151, 149, 0.15);
+  background: var(--color-card, #fff);
+}
+
+/* ---------- 蛋白行专属元信息 ---------- */
+.dt-protein-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: var(--radius-sm, 6px);
+  font-size: 11.5px;
+  line-height: 1.5;
+  border-left: 3px solid currentColor;
+}
+html[data-theme="minimal"] .dt-protein-meta {
+  background: #FAFAFA;
+  border: 1px solid #E5E5E5;
+  border-left-width: 3px;
+}
+.dt-protein-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: var(--color-primary, #319795);
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+html[data-theme="hellokitty"] .dt-protein-tag {
+  background: linear-gradient(135deg, #FF8FAE 0%, #FF6B9D 100%);
+  color: #FFFFFF;
+}
+html[data-theme="minimal"] .dt-protein-tag {
+  background: #1A1A1A;
+  color: #FFFFFF;
+}
+.dt-protein-perkg {
+  font-weight: 800;
+  font-size: 14px;
+  color: currentColor;
+  margin-left: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.dt-protein-state {
+  font-weight: 600;
+  font-size: 11.5px;
+  color: currentColor;
+  white-space: nowrap;
+}
+.dt-protein-range {
+  font-size: 10.5px;
+  color: var(--color-text-muted, #718096);
+  font-weight: 500;
+  margin-left: auto;
+  text-align: right;
+  word-break: break-word;
+  flex-basis: 100%;
+  opacity: 0.85;
+}
+html[data-theme="hellokitty"] .dt-protein-range {
+  color: #8B3A62;
 }
