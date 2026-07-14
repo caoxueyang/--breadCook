@@ -3,14 +3,17 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { App as CapacitorApp } from '@capacitor/app';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DataProvider } from './contexts/DataContext';
+import { ToastProvider } from './contexts/ToastContext';
 import SplashScreen from './components/SplashScreen';
 import TabBar from './components/TabBar';
 import DietTracker from './components/DietTracker';
+import UndoDeleteToast from './components/UndoDeleteToast';
 import Home from './pages/Home';
 import Category from './pages/Category';
 import DishDetail from './pages/DishDetail';
 import DishEdit from './pages/DishEdit';
 import Settings from './pages/Settings';
+import FreezingGuide from './pages/FreezingGuide';
 import { useBackButton } from './hooks/useBackButton';
 import './pages/Page.css';
 
@@ -75,12 +78,14 @@ function AppShell() {
             <Route path="/dish/:id" element={<DishDetail />} />
             <Route path="/edit/:id" element={<DishEdit />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/freezing-guide" element={<FreezingGuide />} />
             <Route path="/:category" element={<Category />} />
           </Routes>
         </div>
         <TabBar />
       </div>
       <DietTracker />
+      <UndoDeleteToast />
       <ExitConfirmModal
         open={showExitConfirm}
         onCancel={() => setShowExitConfirm(false)}
@@ -94,9 +99,11 @@ export default function App() {
   return (
     <ThemeProvider>
       <DataProvider>
-        <HashRouter>
-          <AppShell />
-        </HashRouter>
+        <ToastProvider>
+          <HashRouter>
+            <AppShell />
+          </HashRouter>
+        </ToastProvider>
       </DataProvider>
     </ThemeProvider>
   );

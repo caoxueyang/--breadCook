@@ -12,10 +12,21 @@ import {
 } from '../utils/seasonal';
 import {
   getPesticideRisk,
+  getPesticideRiskDetail,
   RISK_LABELS,
   RISK_COLORS,
 } from '../data/pesticideRisk';
 import './Page.css';
+
+/**
+ * 食材名称异体字/形近字归一化
+ * 解决「西兰花」vs「西蓝花」等写法差异导致的搜不到问题
+ */
+function normalizeName(str) {
+  return str
+    .toLowerCase()
+    .replace(/蓝/g, '兰');
+}
 
 const CATEGORY_MAP = {
   dishes: { title: '菜品', emoji: '🍳', empty: '🥘' },
@@ -28,35 +39,73 @@ export default function Category() {
   const { dishes } = useData();
   const [activeTag, setActiveTag] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState(() => getCurrentMonth());
   const navigate = useNavigate();
 
   const config = CATEGORY_MAP[category] || { title: '未知', emoji: '❓', empty: '🍽️' };
 
   const filteredDishes = useMemo(() => {
     let result = dishes.filter(d => d.category === category);
-    if (activeTag === '应季菜') {
-      const ingredients = getSeasonalDishIngredients();
-      result = result.filter(d => dishMatchesSeasonal(d, ingredients));
-    } else if (activeTag === '应季水果') {
-      const ingredients = getSeasonalFruitIngredients();
-      result = result.filter(d => dishMatchesSeasonal(d, ingredients));
-    } else if (activeTag) {
-      result = result.filter(d => d.tags && d.tags.includes(activeTag));
+    // P3-A：搜索框有内容时，绕开 activeTag 过滤 —— 搜的就是全库
+    // 应季/标签过滤只在「浏览模式」生效，搜索时一律搜全库
+    const isSearching = searchQuery.trim().length > 0;
+    if (!isSearching) {
+      if (activeTag === '应季菜') {
+        const ingredients = getSeasonalDishIngredients(selectedMonth);
+        result = result.filter(d => dishMatchesSeasonal(d, ingredients));
+      } else if (activeTag === '应季水果') {
+        const ingredients = getSeasonalFruitIngredients(selectedMonth);
+        result = result.filter(d => dishMatchesSeasonal(d, ingredients));
+      } else if (activeTag) {
+        result = result.filter(d => d.tags && d.tags.includes(activeTag));
+      }
     }
-    if (searchQuery.trim()) {
+    if (isSearching) {
       const q = searchQuery.trim().toLowerCase();
-      result = result.filter(d => {
-        // 菜名匹配
-        if (d.name.toLowerCase().includes(q)) return true;
-        // 食材匹配：提取“材料”部分
-        const m = (d.recipe || '').match(/材料[::]([\s\S]*?)(?:\n\n|$)/);
-        if (m && m[1] && m[1].toLowerCase().includes(q)) return true;
-        return false;
+      // 分两组：菜名匹配优先，食材匹配次之
+      const nameMatched = [];
+      const ingredientMatched = [];
+
+      const nq = normalizeName(q);
+      result.forEach(d => {
+        // 菜名精确匹配（异体字归一化后比较）
+        if (normalizeName(d.name).includes(nq)) {
+          nameMatched.push(d);
+          return;
+        }
+        // 食材精确匹配：提取"材料"部分
+        const m = (d.recipe || '').match(/材料[：:]([\s\S]*?)(?:\n\n|$)/);
+        if (m && m[1] && normalizeName(m[1]).includes(nq)) {
+          ingredientMatched.push(d);
+        }
       });
+
+      // 组内按更新时间排序
+      const sortByTime = (a, b) => (b.updatedAt || 0) - (a.updatedAt || 0);
+      nameMatched.sort(sortByTime);
+      ingredientMatched.sort(sortByTime);
+      result = [...nameMatched, ...ingredientMatched];
+    } else {
+      result.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
     }
-    result.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
     return result;
   }, [dishes, category, activeTag, searchQuery]);
+
+  // 搜索模式下，检测搜索词是否匹配已知食材，提取农残信息
+  const searchedIngredient = useMemo(() => {
+    const q = searchQuery.trim();
+    if (!q) return null;
+    const detail = getPesticideRiskDetail(q);
+    if (!detail) return null;
+    // 用规范名称（如"西蓝花"→"西兰花"）展示
+    const displayName = detail.matchedWord;
+    return {
+      name: displayName,
+      risk: detail.level,
+      colors: RISK_COLORS[detail.level],
+      label: RISK_LABELS[detail.level],
+    };
+  }, [searchQuery]);
 
   return (
     <div className="page">
@@ -64,7 +113,11 @@ export default function Category() {
         <div className="header-top">
           <div>
             <h1 className="header-title">{config.emoji} {config.title}</h1>
-            <p className="header-subtitle">共 {filteredDishes.length} 道</p>
+            <p className="header-subtitle">
+              {searchQuery.trim()
+                ? <>搜索“<strong>{searchQuery.trim()}</strong>”找到 <strong>{filteredDishes.length}</strong> 道</>
+                : <>共 <strong>{filteredDishes.length}</strong> 道</>}
+            </p>
           </div>
         </div>
         <TagFilter activeTag={activeTag} onTagChange={setActiveTag} category={category} />
@@ -76,7 +129,7 @@ export default function Category() {
           <input
             type="text"
             className="search-input"
-            placeholder="搜索菜品或食材"
+            placeholder="搜索菜品或食材（应季模式也搜全库）"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
           />
@@ -88,17 +141,61 @@ export default function Category() {
 
       <div className="page-content">
         {activeTag === '应季菜' || activeTag === '应季水果' ? (
-          <SeasonalBanner type={activeTag} count={filteredDishes.length} />
+          searchQuery.trim() ? null : (
+            <SeasonalBanner type={activeTag} count={filteredDishes.length} selectedMonth={selectedMonth} onChangeMonth={setSelectedMonth} />
+          )
         ) : null}
+        {/* 搜索模式：如果搜索词匹配已知食材，先展示食材农残信息 */}
+        {searchedIngredient && (
+          <div className="seasonal-banner" style={{ margin: '12px 16px 0' }}>
+            <div className="seasonal-banner-header">
+              <span className="seasonal-icon">🥬</span>
+              <span className="seasonal-title">{searchedIngredient.name}</span>
+              <span className="seasonal-count">食材农残</span>
+            </div>
+            <div className="seasonal-tags">
+              <span
+                className="seasonal-tag has-risk"
+                style={{
+                  '--risk-bg': searchedIngredient.colors.bg,
+                  '--risk-border': searchedIngredient.colors.border,
+                  '--risk-text': searchedIngredient.colors.text,
+                }}
+                title={searchedIngredient.label.desc}
+              >
+                {searchedIngredient.name}
+                <span className="risk-dot" style={{ backgroundColor: searchedIngredient.colors.text }} />
+              </span>
+              <span style={{ fontSize: 13, color: 'var(--color-text-secondary)', alignSelf: 'center' }}>
+                {searchedIngredient.label.label} · {searchedIngredient.label.desc}
+              </span>
+            </div>
+            {filteredDishes.length > 0 && (
+              <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 8 }}>
+                含此食材的菜品 <strong>{filteredDishes.length}</strong> 道 ↓
+              </p>
+            )}
+          </div>
+        )}
         {filteredDishes.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">{config.empty}</div>
             <p className="empty-text">
-              {activeTag === '应季菜' || activeTag === '应季水果'
-                ? `${getSeasonalData().months.join('、')} 月应季食材中还没有匹配的菜品`
-                : `暂无${config.title}`}
+              {searchQuery.trim() && searchedIngredient ? (
+                <>暂无含“<strong>{searchQuery.trim()}</strong>”的菜品，试试其他关键词</>
+              ) : searchQuery.trim() ? (
+                <>未搜到“<strong>{searchQuery.trim()}</strong>”相关的菜品</>
+              ) : activeTag === '应季菜' || activeTag === '应季水果' ? (
+                `${getSeasonalData(selectedMonth).months.join('、')} 月应季食材中还没有匹配的菜品`
+              ) : (
+                `暂无${config.title}`
+              )}
             </p>
-            <p className="empty-hint">点击下方 + 添加新菜品</p>
+            <p className="empty-hint">
+              {searchQuery.trim()
+                ? '试试简化关键词，或点上面“菜品”标签浏览全部'
+                : '点击下方 + 添加新菜品'}
+            </p>
           </div>
         ) : (
           <div className="dish-grid">
@@ -127,14 +224,23 @@ export default function Category() {
  * 应季菜：蔬野菜 + 威海应季海鲜
  * 应季水果：威海本地应季水果 + 其他产区应季水果
  */
-function SeasonalBanner({ type, count }) {
-  const data = getSeasonalData();
+function SeasonalBanner({ type, count, selectedMonth, onChangeMonth }) {
+  const data = getSeasonalData(selectedMonth);
   const isDish = type === '应季菜';
   const icon = isDish ? '🌱' : '🍓';
   const rangeText = `${data.months[0]}–${data.months[2]} 月`;
   const title = isDish
     ? `${rangeText}威海应季菜`
     : `${rangeText}应季水果`;
+
+  const goPrev = () => {
+    const m = selectedMonth - 1;
+    onChangeMonth(m < 1 ? 12 : m);
+  };
+  const goNext = () => {
+    const m = selectedMonth + 1;
+    onChangeMonth(m > 12 ? 1 : m);
+  };
 
   return (
     <div className="seasonal-banner">
@@ -143,6 +249,16 @@ function SeasonalBanner({ type, count }) {
         <span className="seasonal-title">{title}</span>
         <span className="seasonal-count">匹配 {count} 道菜</span>
       </div>
+      <div className="seasonal-month-bar">
+        <button type="button" className="seasonal-month-btn" onClick={goPrev} aria-label="上个月">‹</button>
+        <span className="seasonal-month-label">{selectedMonth} 月</span>
+        <button type="button" className="seasonal-month-btn" onClick={goNext} aria-label="下个月">›</button>
+        <span className="seasonal-month-range">（{data.months[0]}–{data.months[2]} 月）</span>
+      </div>
+
+      {/* 所有应季食材农残风险总览 — 先于月份块展示 */}
+      <RiskOverview data={data} isDish={isDish} />
+
       <div className="seasonal-months">
         {data.byMonth.map(monthData => (
           <SeasonalMonthBlock
@@ -152,6 +268,71 @@ function SeasonalBanner({ type, count }) {
           />
         ))}
       </div>
+    </div>
+  );
+}
+
+
+/**
+ * 应季食材农残风险总览卡片
+ * 收集所有月份的所有食材，按风险等级分组展示，先展示风险信息再展示菜品
+ */
+function RiskOverview({ data, isDish }) {
+  // 收集所有月份的所有食材名称
+  const allIngredients = [];
+  data.byMonth.forEach(m => {
+    if (isDish) {
+      m.veggies.forEach(v => allIngredients.push(v));
+    } else {
+      m.fruitsLocal.forEach(f => allIngredients.push(f));
+      m.fruitsOther.forEach(f => allIngredients.push(f.name));
+    }
+  });
+  // 去重
+  const unique = [...new Set(allIngredients)];
+  if (unique.length === 0) return null;
+
+  // 按风险等级分组
+  const groups = { high: [], moderate: [], low: [], unknown: [] };
+  unique.forEach(name => {
+    const risk = getPesticideRisk(name);
+    if (risk === 'high') groups.high.push(name);
+    else if (risk === 'moderate') groups.moderate.push(name);
+    else if (risk === 'low') groups.low.push(name);
+    else groups.unknown.push(name);
+  });
+
+  // 风险等级优先级展示顺序
+  const riskOrder = [
+    { key: 'high', emoji: '🔴', label: '高农残·建议选有机', items: groups.high },
+    { key: 'moderate', emoji: '🟡', label: '中等农残·正常清洗即可', items: groups.moderate },
+    { key: 'low', emoji: '🟢', label: '低农残·放心买普通', items: groups.low },
+  ];
+  const hasRisks = riskOrder.some(g => g.items.length > 0);
+  if (!hasRisks) return null;
+
+  return (
+    <div className="risk-overview">
+      <div className="risk-overview-title">
+        {isDish ? '🥬' : '🍓'} 食材农残风险一览
+      </div>
+      {riskOrder.map(group =>
+        group.items.length > 0 ? (
+          <div key={group.key} className="risk-overview-group">
+            <div className="risk-overview-group-label" style={{
+              color: group.key === 'high' ? '#C62828' : group.key === 'moderate' ? '#F57F17' : '#2E7D32',
+            }}>
+              {group.emoji} {group.label}
+              <span className="risk-overview-count">{group.items.length} 种</span>
+            </div>
+            <div className="seasonal-tags">
+              {group.items.map(name => (
+                <SeasonalTagWithRisk key={name} name={name} />
+              ))}
+            </div>
+          </div>
+        ) : null
+      )}
     </div>
   );
 }
@@ -221,7 +402,7 @@ function SeasonalMonthBlock({ monthData, isDish }) {
   );
 }
 
-/** 单个应季食材标签 + 农残风险指示器 */
+/** 单个应季食材标签 + 农残风险指示器（文本显式标签） */
 function SeasonalTagWithRisk({ name, origin }) {
   const risk = getPesticideRisk(name);
   const colors = risk ? RISK_COLORS[risk] : null;
@@ -247,9 +428,14 @@ function SeasonalTagWithRisk({ name, origin }) {
       )}
       {risk && (
         <span
-          className="risk-dot"
-          style={{ backgroundColor: colors.text }}
-        />
+          className="risk-badge-text"
+          style={{
+            backgroundColor: colors.text,
+            color: '#fff',
+          }}
+        >
+          {label.text}
+        </span>
       )}
     </span>
   );

@@ -83,10 +83,10 @@ const KEYWORD_RULES = [
   { keywords: ['芦笋'], level: RISK.LOW },
   { keywords: ['卷心菜', '包菜', '圆白菜'], level: RISK.LOW },
   { keywords: ['花菜', '菜花', '花椰菜'], level: RISK.LOW },
-  { keywords: ['西兰花', '青花菜'], level: RISK.LOW },
+  { keywords: ['西兰花', '西蓝花', '青花菜'], level: RISK.LOW },
   { keywords: ['胡萝卜'], level: RISK.LOW },
   { keywords: ['蘑菇', '香菇', '金针菇', '杏鲍菇'], level: RISK.LOW },
-  { keywords: ['红薯', '地瓜'], level: RISK.LOW },
+  { keywords: ['红薯', '地瓜', '紫薯'], level: RISK.LOW },
   { keywords: ['山药'], level: RISK.LOW },
   { keywords: ['芋头'], level: RISK.LOW },
   { keywords: ['茄子'], level: RISK.LOW },
@@ -138,6 +138,27 @@ export function getPesticideRisk(name) {
   }
 
   return null; // 未知食材
+}
+
+/**
+ * 判断食材农残风险并返回匹配的关键词（规范名称）
+ * @param {string} name - 食材名称
+ * @returns {{ level: 'low'|'moderate'|'high', matchedWord: string } | null}
+ */
+export function getPesticideRiskDetail(name) {
+  if (!name) return null;
+  const lower = name.toLowerCase();
+
+  for (const rule of KEYWORD_RULES) {
+    for (const keyword of rule.keywords) {
+      if (lower.includes(keyword.toLowerCase())) {
+        // 返回规范名称（关键词组第一个）和风险等级
+        return { level: rule.level, matchedWord: rule.keywords[0] };
+      }
+    }
+  }
+
+  return null;
 }
 
 /**

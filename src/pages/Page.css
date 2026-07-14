@@ -493,6 +493,50 @@ html[data-theme="hellokitty"] .seasonal-title {
   flex-shrink: 0;
 }
 
+/* 月份切换栏 */
+.seasonal-month-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 4px 0;
+}
+.seasonal-month-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: all 0.15s;
+}
+.seasonal-month-btn:active {
+  transform: scale(0.9);
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+.seasonal-month-label {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-text);
+  min-width: 50px;
+  text-align: center;
+}
+.seasonal-month-range {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-left: 4px;
+}
+
 .seasonal-section {
   margin-top: 8px;
 }
@@ -531,17 +575,29 @@ html[data-theme="minimal"] .seasonal-tag {
   color: #1A1A1A;
 }
 
-/* 应季食材标签 + 农残风险指示器 */
+/* 应季食材标签 + 农残风险文字徽章 */
 .seasonal-tag.has-risk {
   background: var(--risk-bg, rgba(255, 255, 255, 0.85)) !important;
   border-color: var(--risk-border, rgba(245, 215, 110, 0.4)) !important;
-  padding-right: 6px;
+  padding-right: 4px;
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
-/* 农残风险小圆点 */
+/* 农残风险文字徽章（替代小圆点） */
+.risk-badge-text {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-left: 4px;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+/* 农残风险小圆点（保留旧样式兼容） */
 .risk-dot {
   display: inline-block;
   width: 8px;
@@ -551,11 +607,11 @@ html[data-theme="minimal"] .seasonal-tag {
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
 }
 
-/* 水果标签带产地时，风险圆点放在最后对齐 */
+/* 水果标签带产地时，风险文字徽章右对齐 */
 .seasonal-tag-fruit.has-risk {
-  padding-right: 8px;
+  padding-right: 6px;
 }
-.seasonal-tag-fruit.has-risk .risk-dot {
+.seasonal-tag-fruit.has-risk .risk-badge-text {
   margin-left: 2px;
 }
 
@@ -581,6 +637,52 @@ html[data-theme="hellokitty"] .seasonal-tag-fruit .seasonal-tag-origin {
 }
 html[data-theme="minimal"] .seasonal-tag-fruit .seasonal-tag-origin {
   color: #666;
+}
+
+/* ═══════ 农残风险总览卡片（SeasonalBanner 内） ═══════ */
+.risk-overview {
+  margin: 10px 0;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+html[data-theme="hellokitty"] .risk-overview {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 107, 138, 0.2);
+}
+html[data-theme="minimal"] .risk-overview {
+  background: #FFFFFF;
+  border-color: #E0E0E0;
+}
+
+.risk-overview-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 10px;
+}
+
+.risk-overview-group {
+  margin-bottom: 10px;
+}
+.risk-overview-group:last-child {
+  margin-bottom: 0;
+}
+
+.risk-overview-group-label {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.risk-overview-count {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.7;
 }
 
 /* 应季食材按月分块 */

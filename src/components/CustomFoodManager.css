@@ -1,0 +1,237 @@
+/* 自定义食物管理 Modal — 复用 .modal-box/.modal-overlay 全局样式，自定义表单单布局 */
+.cfm-modal {
+  width: min(560px, 95vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 0;
+  text-align: left;
+}
+
+.cfm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--color-border, #e0e0e0);
+  position: sticky;
+  top: 0;
+  background: var(--color-bg, #fff);
+  z-index: 1;
+}
+
+.cfm-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cfm-header-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.cfm-header-sub {
+  font-size: 11px;
+  opacity: 0.65;
+  margin-top: 2px;
+}
+
+/* 表单区 */
+.cfm-form {
+  padding: 14px 18px 12px;
+  border-bottom: 1px dashed var(--color-border, #e0e0e0);
+}
+
+.cfm-form-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text, #333);
+  margin-bottom: 10px;
+}
+
+.cfm-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.cfm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cfm-field-grow {
+  flex: 1 1 200px;
+}
+
+.cfm-label {
+  font-size: 11px;
+  color: var(--color-text-secondary, #666);
+  font-weight: 500;
+}
+
+.cfm-input {
+  padding: 7px 10px;
+  border: 1px solid var(--color-border, #d0d0d0);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--color-bg, #fff);
+  color: var(--color-text, #333);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.cfm-input-sm {
+  width: 80px;
+}
+
+.cfm-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.15);
+}
+
+.cfm-unit-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cfm-unit-suffix {
+  font-size: 12px;
+  color: var(--color-text-secondary, #666);
+}
+
+.cfm-cat-list {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cfm-cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: 1px solid var(--color-border, #d0d0d0);
+  border-radius: 16px;
+  background: var(--color-bg, #fff);
+  color: var(--color-text, #333);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.cfm-cat-chip:hover {
+  border-color: #3498db;
+  background: rgba(52, 152, 219, 0.06);
+}
+
+.cfm-cat-chip.is-active {
+  border-color: #3498db;
+  background: #3498db;
+  color: #fff;
+}
+
+.cfm-error {
+  margin: 6px 0 0;
+  padding: 6px 10px;
+  background: rgba(231, 76, 60, 0.1);
+  color: #c0392b;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.cfm-form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+/* 列表区 */
+.cfm-list-section {
+  padding: 12px 18px 16px;
+}
+
+.cfm-list-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.cfm-list-empty {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-text-secondary, #999);
+}
+
+.cfm-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.cfm-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border, #e8e8e8);
+  border-radius: 10px;
+  background: var(--color-bg-secondary, #fafafa);
+}
+
+.cfm-list-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.cfm-list-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.cfm-list-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text, #333);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cfm-list-meta {
+  font-size: 11px;
+  color: var(--color-text-secondary, #888);
+  margin-top: 2px;
+}
+
+.cfm-list-del {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #999;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.cfm-list-del:hover {
+  background: rgba(231, 76, 60, 0.12);
+  color: #c0392b;
+}

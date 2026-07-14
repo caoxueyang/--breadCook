@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useData } from '../contexts/DataContext';
 import { useTheme } from '../contexts/ThemeContext';
 import DishCard from '../components/DishCard';
-import pompAvatar from '../assets/huangbai/左上角.png';
-import kittyAvatar from '../assets/kitty/hello-kitty-face.svg';
+import SeasonalSpotlight from '../components/SeasonalSpotlight';
+import { pompAvatarUrl as pompAvatar, kittyFaceUrl as kittyAvatar } from '../utils/defaultImages';
 import './Page.css';
 
 const CAT_ORDER = ['dishes', 'drinks', 'desserts'];
@@ -239,6 +239,8 @@ export default function Home() {
       </header>
 
       <div className="page-content">
+        {/* 应季菜推荐（顶部 Spotlight） */}
+        <SeasonalSpotlight dishes={dishes} />
         {grouped.total === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">❤️</div>

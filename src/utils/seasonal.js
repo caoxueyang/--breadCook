@@ -21,7 +21,7 @@
 // 12月
 export const SEASONAL_DATA = {
   1: {
-    veggies: ['大白菜', '萝卜', '菠菜', '生菜', '大葱', '土豆', '菜花'],
+    veggies: ['大白菜', '萝卜', '菠菜', '生菜', '大葱', '土豆', '菜花', '胡萝卜', '蘑菇', '香菇', '木耳', '豆芽', '西兰花'],
     seafood: ['乳山牡蛎', '扇贝', '带鱼', '鲅鱼', '海参'],
     fruitsLocal: ['红颜草莓（温室）'],
     fruitsOther: [
@@ -31,7 +31,7 @@ export const SEASONAL_DATA = {
     ],
   },
   2: {
-    veggies: ['菠菜', '茼蒿', '荠菜', '芹菜', '大蒜苗', '菜苔', '莴笋'],
+    veggies: ['菠菜', '茼蒿', '荠菜', '芹菜', '大蒜苗', '菜苔', '莴笋', '蘑菇', '香菇', '木耳', '豆芽', '西兰花'],
     seafood: ['牡蛎', '扇贝', '海虹', '鹰爪虾'],
     fruitsLocal: ['红颜草莓（温室）'],
     fruitsOther: [
@@ -41,7 +41,7 @@ export const SEASONAL_DATA = {
     ],
   },
   3: {
-    veggies: ['荠菜', '香椿', '婆婆丁', '蒲公英'],
+    veggies: ['荠菜', '香椿', '婆婆丁', '蒲公英', '春笋', '蘑菇', '香菇', '木耳', '豆芽', '西兰花'],
     seafood: ['皮皮虾', '海虹', '海肠'],
     fruitsLocal: ['露天草莓（红颜）'],
     fruitsOther: [
@@ -51,7 +51,7 @@ export const SEASONAL_DATA = {
     ],
   },
   4: {
-    veggies: ['山苜楂', '马齿苋', '香椿', '小油菜'],
+    veggies: ['山苜楂', '马齿苋', '香椿', '小油菜', '春笋', '蒜薹', '蘑菇', '香菇', '木耳', '豆芽'],
     seafood: ['皮皮虾', '爬虾', '面条鱼'],
     fruitsLocal: ['美早樱桃（温室）', '红颜草莓（尾期）'],
     fruitsOther: [
@@ -61,7 +61,7 @@ export const SEASONAL_DATA = {
     ],
   },
   5: {
-    veggies: ['黄瓜', '芸豆', '莴苣', '小葱'],
+    veggies: ['黄瓜', '芸豆', '莴苣', '小葱', '蒜薹', '洋葱', '豆芽', '木耳', '海带'],
     seafood: ['章鱼', '八带', '虾虎', '偏口鱼', '虎头蟹'],
     fruitsLocal: ['美早樱桃', '蓝丰蓝莓'],
     fruitsOther: [
@@ -71,7 +71,7 @@ export const SEASONAL_DATA = {
     ],
   },
   6: {
-    veggies: ['菠菜', '油菜', '茄子', '芸豆', '空心菜'],
+    veggies: ['菠菜', '油菜', '茄子', '芸豆', '空心菜', '番茄', '圣女果', '洋葱', '豆芽', '海带', '苦瓜'],
     seafood: ['黄花鱼', '扇贝', '海胆', '蛏子'],
     fruitsLocal: ['美早樱桃（尾期）', '蓝丰蓝莓', '早春红玉西瓜'],
     fruitsOther: [
@@ -81,7 +81,7 @@ export const SEASONAL_DATA = {
     ],
   },
   7: {
-    veggies: ['茄子', '辣椒', '豆角', '空心菜', '苋菜'],
+    veggies: ['茄子', '辣椒', '豆角', '空心菜', '苋菜', '番茄', '圣女果', '苦瓜', '豆芽', '海带', '胡萝卜'],
     seafood: ['黄花鱼', '海胆', '鲍鱼', '扇贝'],
     fruitsLocal: ['甘美西瓜', '哈密瓜（早熟）', '巨峰葡萄'],
     fruitsOther: [
@@ -91,7 +91,7 @@ export const SEASONAL_DATA = {
     ],
   },
   8: {
-    veggies: ['早秋白菜', '早秋萝卜', '秋葵', '丝瓜'],
+    veggies: ['早秋白菜', '早秋萝卜', '秋葵', '丝瓜', '番茄', '圣女果', '苦瓜', '豆芽', '海带', '蘑菇'],
     seafood: ['对虾', '蛏子', '海胆', '鱿鱼'],
     fruitsLocal: ['巨峰葡萄', '早酥梨', '甘美西瓜'],
     fruitsOther: [
@@ -101,7 +101,7 @@ export const SEASONAL_DATA = {
     ],
   },
   9: {
-    veggies: ['莲藕', '茭白', '南瓜', '菠菜'],
+    veggies: ['莲藕', '茭白', '南瓜', '菠菜', '西兰花', '胡萝卜', '蘑菇', '香菇', '木耳', '豆芽', '番茄'],
     seafood: ['梭子蟹', '带鱼', '偏口', '鲅鱼'],
     fruitsLocal: ['波姬红无花果', '嘎啦苹果', '巨峰葡萄（尾期）'],
     fruitsOther: [
@@ -111,7 +111,7 @@ export const SEASONAL_DATA = {
     ],
   },
   10: {
-    veggies: ['白菜', '萝卜', '红薯', '莲藕', '茄子', '芋头'],
+    veggies: ['白菜', '萝卜', '红薯', '莲藕', '茄子', '芋头', '西兰花', '胡萝卜', '蘑菇', '香菇', '木耳', '豆芽', '洋葱'],
     seafood: ['梭子蟹', '八爪鱼', '虾怪', '牙片鱼'],
     fruitsLocal: ['红富士苹果', '沾化冬枣（鲜）'],
     fruitsOther: [
@@ -121,7 +121,7 @@ export const SEASONAL_DATA = {
     ],
   },
   11: {
-    veggies: ['白菜', '萝卜', '莲藕', '南瓜', '山药', '卷心菜', '茭白', '花菜', '菠菜', '茼蒿'],
+    veggies: ['白菜', '萝卜', '莲藕', '南瓜', '山药', '卷心菜', '茭白', '花菜', '菠菜', '茼蒿', '西兰花', '胡萝卜', '蘑菇', '香菇', '木耳', '豆芽', '洋葱'],
     seafood: ['带鱼', '偏口', '鲳鱼', '贝类'],
     fruitsLocal: ['红富士苹果', '大山楂'],
     fruitsOther: [
@@ -131,7 +131,7 @@ export const SEASONAL_DATA = {
     ],
   },
   12: {
-    veggies: ['大白菜', '萝卜', '大葱', '花菜', '土豆'],
+    veggies: ['大白菜', '萝卜', '大葱', '花菜', '土豆', '胡萝卜', '蘑菇', '香菇', '木耳', '豆芽', '西兰花', '洋葱'],
     seafood: ['乳山牡蛎', '扇贝', '带鱼', '海参', '鲅鱼'],
     fruitsLocal: ['红富士苹果', '红颜草莓（温室）'],
     fruitsOther: [
@@ -203,7 +203,7 @@ export function getSeasonalFruitIngredients(month) {
 /** 提取菜品的"材料"段 */
 function extractIngredientsText(dish) {
   if (!dish || !dish.recipe) return '';
-  const m = dish.recipe.match(/材料[::]([\s\S]*?)(?:\n\n|$)/);
+  const m = dish.recipe.match(/材料[：:]([\s\S]*?)(?:\n\n|$)/);
   return m ? m[1] : '';
 }
 
@@ -215,3 +215,29 @@ export function dishMatchesSeasonal(dish, ingredients) {
   const lower = text.toLowerCase();
   return ingredients.some(name => lower.includes(String(name).toLowerCase()));
 }
+
+/**
+ * 在菜品列表中找出应季菜
+ * @param {Array} dishes - 全部菜品
+ * @param {number} month - 月份（1-12），默认当前月
+ * @param {number} limit - 返回上限
+ * @returns {Array<{dish, matched: string[]}>} 按「命中应季食材数」降序
+ */
+export function findSeasonalDishes(dishes, month, limit = 6) {
+  const m = Number(month) || new Date().getMonth() + 1;
+  const ingredients = getSeasonalDishIngredients(m);
+  if (!Array.isArray(dishes) || ingredients.length === 0) return [];
+  const out = [];
+  for (const dish of dishes) {
+    const text = extractIngredientsText(dish);
+    if (!text) continue;
+    const lower = text.toLowerCase();
+    const matched = ingredients.filter((name) => lower.includes(String(name).toLowerCase()));
+    if (matched.length > 0) {
+      out.push({ dish, matched });
+    }
+  }
+  out.sort((a, b) => b.matched.length - a.matched.length);
+  return out.slice(0, Math.max(0, limit));
+}
+

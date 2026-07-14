@@ -1,16 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
-import back1 from '../assets/huangbai/back1.jpeg';
-import back2 from '../assets/huangbai/back2.jpg';
-import back3 from '../assets/huangbai/back3.webp';
-import back4 from '../assets/huangbai/back4.jpg';
+import { TAB_BACKGROUNDS } from '../utils/defaultImages';
 import './TabBar.css';
 
 const TABS = [
-  { path: '/dishes', label: '菜品', icon: 'dish', bg: back4 },
-  { path: '/drinks', label: '酒品', icon: 'drink', bg: back2 },
-  { path: '/desserts', label: '甜品', icon: 'dessert', bg: back3 },
-  { path: '/favs', label: '已选', icon: 'heart', bg: back1 },
+  { path: '/dishes', label: '菜品', icon: 'dish', bg: TAB_BACKGROUNDS['/dishes'] },
+  { path: '/drinks', label: '酒品', icon: 'drink', bg: TAB_BACKGROUNDS['/drinks'] },
+  { path: '/desserts', label: '甜品', icon: 'dessert', bg: TAB_BACKGROUNDS['/desserts'] },
+  { path: '/favs', label: '已选', icon: 'heart', bg: TAB_BACKGROUNDS['/favs'] },
 ];
 
 function TabIcon({ type, active }) {

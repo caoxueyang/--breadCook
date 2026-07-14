@@ -124,10 +124,26 @@ html[data-theme="minimal"] .theme-check {
 }
 
 .action-title {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: var(--font-size-md);
   font-weight: 600;
   color: var(--color-text);
+}
+
+.action-badge {
+  display: inline-block;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 9px;
+  background: #319795;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
 }
 
 .action-desc {

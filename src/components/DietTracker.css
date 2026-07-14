@@ -944,6 +944,46 @@ html[data-theme="minimal"] .dt-kcal-value {
   border-color: #319795;
   box-shadow: 0 0 0 2px rgba(49, 151, 149, 0.15);
 }
+.dt-picker-custom-btn {
+  flex: 0 0 auto;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid #319795;
+  border-radius: var(--radius-sm);
+  background: rgba(49, 151, 149, 0.08);
+  color: #319795;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, transform 0.1s;
+}
+.dt-picker-custom-btn:hover {
+  background: #319795;
+  color: #fff;
+}
+.dt-picker-custom-btn:active {
+  transform: scale(0.96);
+}
+.dt-food-swap {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid #f39c12;
+  border-radius: 14px;
+  background: rgba(243, 156, 18, 0.08);
+  color: #d35400;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, transform 0.1s;
+}
+.dt-food-swap:hover {
+  background: #f39c12;
+  color: #fff;
+}
+.dt-food-swap:active {
+  transform: scale(0.96);
+}
 .dt-picker-empty {
   padding: 16px 10px;
   text-align: center;
@@ -1145,6 +1185,36 @@ html[data-theme="minimal"] .dt-kcal-value {
   color: var(--color-text-muted);
   font-weight: 500;
   margin-top: 1px;
+}
+
+/* 食物选择器卡片 · 农残风险提醒 */
+.dt-picker-card.has-risk {
+  padding-bottom: 5px;
+}
+.dt-picker-risk {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--risk-text);
+  background: var(--risk-bg);
+  border: 1px solid var(--risk-border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin: 2px 0;
+  align-self: flex-start;
+  line-height: 1.3;
+}
+.dt-picker-risk-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dt-picker-risk-text {
+  white-space: nowrap;
 }
 
 /* 进度条里的通俗描述 */
@@ -1855,4 +1925,449 @@ html[data-theme="minimal"] .dt-protein-tag {
 }
 html[data-theme="hellokitty"] .dt-protein-range {
   color: #8B3A62;
+}
+
+/* ============================================
+   铁摄入追踪面板（女生模式专用）
+   ============================================ */
+.dt-gender-toggle {
+  min-width: 0;
+}
+.dt-gender-toggle .dt-profile-tab {
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+.dt-gender-toggle .dt-profile-tab:first-child {
+  color: #2B6CB0;
+}
+.dt-gender-toggle .dt-profile-tab:first-child.active {
+  background: #2B6CB0;
+  color: #FFFFFF;
+}
+.dt-gender-toggle .dt-profile-tab:last-child {
+  color: #D53F8C;
+}
+.dt-gender-toggle .dt-profile-tab:last-child.active {
+  background: #D53F8C;
+  color: #FFFFFF;
+}
+html[data-theme="hellokitty"] .dt-gender-toggle .dt-profile-tab.active {
+  background: linear-gradient(135deg, #FF8FAE 0%, #FF6B9D 100%);
+}
+html[data-theme="minimal"] .dt-gender-toggle .dt-profile-tab.active {
+  background: #1A1A1A;
+  color: #FFFFFF;
+}
+
+/* ---- 铁追踪面板 ---- */
+:root {
+  --dt-iron-low: #E74C3C;
+  --dt-iron-mid: #F6A623;
+  --dt-iron-ok: #27AE60;
+}
+.dt-iron-tracker {
+  background: linear-gradient(135deg, #FFF5F5 0%, #FFE0E8 100%);
+  border: 1px solid #F4A6C7;
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 12px;
+  animation: dt-form-in 0.2s ease-out;
+}
+html[data-theme="minimal"] .dt-iron-tracker {
+  background: #FAFAFA;
+  border: 1px solid #E5E5E5;
+}
+.dt-iron-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.dt-iron-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #C13584;
+  letter-spacing: 0.5px;
+}
+html[data-theme="minimal"] .dt-iron-title {
+  color: #1A1A1A;
+}
+.dt-iron-learn {
+  font-size: 14px;
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+  cursor: pointer;
+}
+.dt-iron-learn:hover {
+  opacity: 1;
+}
+
+/* 周总量行 */
+.dt-iron-total-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.dt-iron-total-value {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+.dt-iron-number {
+  font-size: 28px;
+  font-weight: 800;
+  color: #C13584;
+  font-variant-numeric: tabular-nums;
+}
+html[data-theme="minimal"] .dt-iron-number {
+  color: #1A1A1A;
+}
+.dt-iron-unit {
+  font-size: 12px;
+  color: #C13584;
+  font-weight: 600;
+}
+html[data-theme="minimal"] .dt-iron-unit {
+  color: #1A1A1A;
+}
+.dt-iron-sep {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 0 2px;
+}
+.dt-iron-target {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+.dt-iron-pct {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* 周进度条 */
+.dt-iron-bar-bg {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  border: 1px solid rgba(193, 53, 132, 0.15);
+}
+html[data-theme="minimal"] .dt-iron-bar-bg {
+  background: #E5E5E5;
+  border-color: transparent;
+}
+.dt-iron-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+  min-width: 4px;
+}
+
+/* 每日柱状图 */
+.dt-iron-days {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 6px;
+  margin-bottom: 14px;
+  height: 72px;
+  padding: 0 4px;
+}
+.dt-iron-day {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+}
+.dt-iron-day.is-today .dt-iron-day-label {
+  color: #C13584;
+  font-weight: 800;
+}
+.dt-iron-day-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: 0.2px;
+}
+.dt-iron-day-bar-wrap {
+  flex: 1;
+  width: 100%;
+  max-width: 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 4px 4px 0 0;
+  min-height: 4px;
+}
+.dt-iron-day-bar {
+  width: 100%;
+  max-width: 24px;
+  background: linear-gradient(to top, #D53F8C, #ED64A6);
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+  min-height: 2px;
+}
+html[data-theme="minimal"] .dt-iron-day-bar {
+  background: #1A1A1A;
+}
+.dt-iron-day.is-today .dt-iron-day-bar {
+  background: linear-gradient(to top, #C13584, #E07CB0);
+  box-shadow: 0 0 6px rgba(193, 53, 132, 0.4);
+}
+.dt-iron-day-value {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  min-height: 12px;
+}
+
+/* 本周铁来源排行 */
+.dt-iron-top {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  margin-bottom: 10px;
+}
+.dt-iron-top-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8B3A62;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+.dt-iron-top-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.dt-iron-top-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  padding: 2px 0;
+}
+.dt-iron-top-rank {
+  width: 18px;
+  text-align: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.dt-iron-top-name {
+  flex: 1;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.dt-iron-top-mg {
+  font-weight: 700;
+  color: #C13584;
+  font-variant-numeric: tabular-nums;
+}
+.dt-iron-top-count {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+/* 补铁小贴士 */
+.dt-iron-tip {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #6B3A5A;
+  background: rgba(255, 255, 255, 0.35);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(193, 53, 132, 0.2);
+}
+html[data-theme="minimal"] .dt-iron-tip {
+  color: #1A1A1A;
+}
+.dt-iron-tip b {
+  color: #C13584;
+}
+html[data-theme="minimal"] .dt-iron-tip b {
+  color: #1A1A1A;
+}
+
+/* ============================================
+   维生素 D 提示卡片
+   ============================================ */
+.dt-vitd-card {
+  background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+  border: 1px solid #FFD54F;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  animation: dt-form-in 0.2s ease-out;
+}
+html[data-theme="hellokitty"] .dt-vitd-card {
+  background: linear-gradient(135deg, #FFF0F5 0%, #FFE0EC 100%);
+  border-color: #F4A6C7;
+}
+html[data-theme="minimal"] .dt-vitd-card {
+  background: #FAFAFA;
+  border: 1px solid #E5E5E5;
+}
+.dt-vitd-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.dt-vitd-icon {
+  font-size: 22px;
+}
+.dt-vitd-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #E65100;
+}
+html[data-theme="hellokitty"] .dt-vitd-title {
+  color: #C13584;
+}
+html[data-theme="minimal"] .dt-vitd-title {
+  color: #1A1A1A;
+}
+.dt-vitd-body {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #4E342E;
+}
+html[data-theme="minimal"] .dt-vitd-body {
+  color: #333;
+}
+.dt-vitd-body p {
+  margin: 4px 0;
+}
+.dt-vitd-body b {
+  color: #E65100;
+  font-weight: 800;
+}
+html[data-theme="hellokitty"] .dt-vitd-body b {
+  color: #C13584;
+}
+html[data-theme="minimal"] .dt-vitd-body b {
+  color: #1A1A1A;
+}
+.dt-vitd-foot {
+  margin-top: 6px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-sm);
+  font-size: 11.5px;
+  color: #BF360C;
+  font-weight: 600;
+  border-left: 3px solid #FF6F00;
+}
+html[data-theme="hellokitty"] .dt-vitd-foot {
+  color: #8B3A62;
+  border-left-color: #F4A6C7;
+}
+html[data-theme="minimal"] .dt-vitd-foot {
+  color: #1A1A1A;
+  border-left-color: #1A1A1A;
+}
+
+/* ============================================
+   本周限吃食物提醒卡片
+   ============================================ */
+.dt-limit-card {
+  background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+  border: 1px solid #FFB74D;
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  animation: dt-form-in 0.2s ease-out;
+}
+html[data-theme="hellokitty"] .dt-limit-card {
+  background: linear-gradient(135deg, #FFF0F5 0%, #FFE0EC 100%);
+  border-color: #F4A6C7;
+}
+html[data-theme="minimal"] .dt-limit-card {
+  background: #FAFAFA;
+  border: 1px solid #E5E5E5;
+}
+.dt-limit-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.dt-limit-icon {
+  font-size: 18px;
+}
+.dt-limit-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #E65100;
+}
+html[data-theme="hellokitty"] .dt-limit-title {
+  color: #C13584;
+}
+html[data-theme="minimal"] .dt-limit-title {
+  color: #1A1A1A;
+}
+.dt-limit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dt-limit-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-sm);
+  flex-wrap: wrap;
+}
+.dt-limit-item.is-done {
+  background: rgba(231, 76, 60, 0.08);
+  border-left: 3px solid #E74C3C;
+}
+.dt-limit-name {
+  font-weight: 600;
+  color: #4E342E;
+  flex: 1;
+  min-width: 0;
+}
+html[data-theme="minimal"] .dt-limit-name {
+  color: #333;
+}
+.dt-limit-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.dt-limit-badge.badge-ok {
+  background: rgba(255, 152, 0, 0.12);
+  color: #E65100;
+}
+.dt-limit-badge.badge-done {
+  background: rgba(231, 76, 60, 0.12);
+  color: #C62828;
+}
+html[data-theme="hellokitty"] .dt-limit-badge.badge-ok {
+  background: rgba(255, 143, 174, 0.15);
+  color: #C13584;
+}
+html[data-theme="hellokitty"] .dt-limit-badge.badge-done {
+  background: rgba(231, 76, 60, 0.12);
+  color: #C13584;
+}
+html[data-theme="minimal"] .dt-limit-badge {
+  background: #F5F5F5;
+  color: #1A1A1A;
 }

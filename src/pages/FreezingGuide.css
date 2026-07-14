@@ -1,0 +1,168 @@
+/* ═══════ 冷冻指南 - Header ═══════ */
+.freeze-header {
+  flex-shrink: 0;
+  padding: 12px 16px 0;
+  background: var(--color-bg);
+}
+
+/* ═══════ 冷冻指南 - 分类标签 ═══════ */
+.freeze-tag-filter {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-bg);
+  padding: 8px 0 0;
+}
+
+.freeze-tag-scroll {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.freeze-tag-item {
+  flex-shrink: 0;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: var(--color-tag-bg);
+  border: 1.5px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.freeze-tag-item:active {
+  transform: scale(0.95);
+}
+
+.freeze-tag-item.active {
+  background: var(--color-tag-active);
+  color: var(--color-card);
+  font-weight: 600;
+  border-color: transparent;
+}
+
+html[data-theme="minimal"] .freeze-tag-item.active {
+  color: #FFFFFF;
+}
+
+/* ═══════ 冷冻指南 - 列表 ═══════ */
+.freeze-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px 16px;
+}
+
+/* ═══════ 冷冻指南 - 卡片 ═══════ */
+.freeze-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.2s ease;
+}
+
+.freeze-card:active {
+  transform: scale(0.98);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.freeze-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.freeze-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.freeze-card-emoji {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.freeze-card-name {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--color-text);
+  flex: 1;
+  min-width: 0;
+}
+
+/* ═══════ 冷冻指南 - 标签徽章 ═══════ */
+.freeze-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-ok {
+  background: rgba(72, 187, 120, 0.15);
+  color: #276749;
+  border: 1px solid rgba(72, 187, 120, 0.3);
+}
+
+.badge-prep {
+  background: rgba(237, 137, 54, 0.15);
+  color: #C05621;
+  border: 1px solid rgba(237, 137, 54, 0.3);
+}
+
+html[data-theme="hellokitty"] .badge-ok {
+  background: rgba(255, 107, 138, 0.12);
+  color: #C04A6A;
+  border-color: rgba(255, 107, 138, 0.25);
+}
+
+html[data-theme="hellokitty"] .badge-prep {
+  background: rgba(255, 150, 100, 0.15);
+  color: #B85A30;
+  border-color: rgba(255, 150, 100, 0.3);
+}
+
+html[data-theme="minimal"] .badge-ok {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border-color: #A5D6A7;
+}
+
+html[data-theme="minimal"] .badge-prep {
+  background: #FFF3E0;
+  color: #E65100;
+  border-color: #FFCC80;
+}
+
+/* ═══════ 冷冻指南 - 保质期 ═══════ */
+.freeze-shelf-life {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* ═══════ 冷冻指南 - 处理方法 ═══════ */
+.freeze-card-method {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  padding: 10px 12px;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.freeze-method-label {
+  font-weight: 600;
+  color: var(--color-text);
+}
