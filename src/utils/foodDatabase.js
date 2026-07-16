@@ -32,18 +32,18 @@ export const FOOD_DB = {
     label: '蛋白质',
     icon: '🥩',
     key: 'protein',
-    representativeId: 'chicken_thigh',  // 通俗参考：鸡大腿（去骨80g，1个1个算）
-    alternativeRepId: 'chicken_drumstick', // 备用参考：鸡小腿（去骨50g，啃骨头也能凑数）
-    secondaryRepIds: ['milk', 'shrimp'],   // 三级参考：牛奶（8g/盒）+ 虾（18g/10只），补足表达丰富度
+    representativeId: 'chicken_breast',  // 通俗参考：鸡胸肉（100g含23g蛋白质，标准化单位g）
+    alternativeRepId: 'egg',             // 备用参考：鸡蛋（1个=7g蛋白质）
+    secondaryRepIds: ['milk'],           // 三级参考：牛奶（250ml含8g蛋白质）
     foods: [
       { id: 'chicken_thigh',    name: '鸡大腿',     unit: '个',    size: '80g/个（去骨·掌心大小）', weightG: 80,  carbs: 0,   protein: 16, fat: 7  },
       { id: 'chicken_drumstick',name: '鸡小腿',     unit: '个',    size: '50g/个（带骨去骨25g）', weightG: 50,  carbs: 0,   protein: 11, fat: 3  },
       { id: 'chicken_leg',      name: '鸡全腿',     unit: '个',    size: '100g/个（大腿+小腿）', weightG: 100,    carbs: 0,   protein: 20, fat: 8  },
-      { id: 'chicken_breast',   name: '鸡胸肉',     unit: '块',    size: '100g/块', weightG: 100,                carbs: 0,   protein: 23, fat: 2  },
+      { id: 'chicken_breast',   name: '鸡胸肉',     unit: 'g',     size: '每100g含23g蛋白质', weightG: 100,       carbs: 0,   protein: 23, fat: 2  },
       { id: 'chicken_wing',     name: '鸡翅',       unit: '个',    size: '30g/个（翅中）', weightG: 30,          carbs: 0,   protein: 6,  fat: 4  },
       { id: 'egg',              name: '鸡蛋',       unit: '个',    size: '50g/个（带壳）', weightG: 50,           carbs: 0.5, protein: 7,  fat: 5  },
       { id: 'egg_white',        name: '蛋白',       unit: '个',    size: '30g/个（蛋清）', weightG: 30,           carbs: 0.2, protein: 3,  fat: 0  },
-      { id: 'milk',             name: '牛奶',       unit: '盒',    size: '250ml/盒', weightG: 250,                 carbs: 12,  protein: 8,  fat: 8  },
+      { id: 'milk',             name: '牛奶',       unit: 'ml',    size: '每250ml含8g蛋白质', weightG: 250,        carbs: 12,  protein: 8,  fat: 8  },
       { id: 'milk_small',       name: '小盒奶',     unit: '盒',    size: '200ml/盒', weightG: 200,                 carbs: 10,  protein: 6,  fat: 6  },
       { id: 'soy_milk',         name: '豆浆',       unit: '杯',    size: '250ml/杯（无糖）', weightG: 250,         carbs: 5,   protein: 5,  fat: 2  },
       { id: 'shrimp',           name: '虾',         unit: '10只',  size: '100g/10只（去壳）', weightG: 100,         carbs: 0,   protein: 18, fat: 1  },
@@ -69,20 +69,21 @@ export const FOOD_DB = {
     label: '脂肪',
     icon: '🥑',
     key: 'fat',
-    representativeId: 'oil',           // 通俗参考：山茶油（100% 脂肪，1勺=10g，准准对应）
-    alternativeRepId: 'walnut',        // 备用参考：核桃（20g/把，热衷吃零食的人才合逻辑）
-    secondaryRepIds: ['cashew'],          // 三级参考：腰果（14g/把），补足表达丰富度
+    representativeId: 'oil',           // 通俗参考：山茶油/花生油（100% 脂肪）
+    alternativeRepId: 'pork_belly',   // 备用参考：五花肉（每100g含30g脂肪）
+    secondaryRepIds: ['walnut'],      // 三级参考：核桃（每30g含20g脂肪）
     foods: [
-      { id: 'oil',           name: '山茶油',   unit: '勺',   size: '10g/勺（约10ml）', weightG: 10,   carbs: 0,  protein: 0,  fat: 10 },
+      { id: 'oil',           name: '山茶油',   unit: 'g',    size: '每10g含10g脂肪', weightG: 10,    carbs: 0,  protein: 0,  fat: 10 },
+      { id: 'peanut_oil',    name: '花生油',   unit: 'g',    size: '每10g含10g脂肪', weightG: 10,    carbs: 0,  protein: 0,  fat: 10 },
       { id: 'oil_big',       name: '食用油',   unit: '汤匙', size: '15g/汤匙', weightG: 15,          carbs: 0,  protein: 0,  fat: 15 },
       { id: 'butter',        name: '黄油',     unit: '勺',   size: '10g/勺', weightG: 10,            carbs: 0,  protein: 0,  fat: 8  },
       { id: 'nuts',          name: '坚果',     unit: '把',   size: '30g/把（混合）', weightG: 30,    carbs: 6,  protein: 6,  fat: 15 },
-      { id: 'walnut',        name: '核桃',     unit: '把',   size: '30g/把（约8颗）', weightG: 30,   carbs: 4,  protein: 5,  fat: 20 },
+      { id: 'walnut',        name: '核桃',     unit: 'g',    size: '每30g含20g脂肪', weightG: 30,    carbs: 4,  protein: 5,  fat: 20 },
       { id: 'cashew',        name: '腰果',     unit: '把',   size: '30g/把（约15颗）', weightG: 30,  carbs: 8,  protein: 6,  fat: 14 },
       { id: 'peanut',        name: '花生',     unit: '把',   size: '30g/把', weightG: 30,            carbs: 6,  protein: 8,  fat: 14 },
       { id: 'almond',        name: '杏仁',     unit: '把',   size: '20g/把（约15颗）', weightG: 20,  carbs: 4,  protein: 4,  fat: 10 },
       { id: 'bacon',         name: '培根',     unit: '片',   size: '10g/片', weightG: 10,            carbs: 0,  protein: 3,  fat: 4  },
-      { id: 'pork_belly',    name: '五花肉',   unit: '块',   size: '100g/块', weightG: 100,           carbs: 0,  protein: 10, fat: 30 },
+      { id: 'pork_belly',    name: '五花肉',   unit: 'g',    size: '每100g含30g脂肪', weightG: 100,  carbs: 0,  protein: 10, fat: 30 },
       { id: 'peanut_butter', name: '花生酱',   unit: '勺',   size: '15g/勺', weightG: 15,            carbs: 4,  protein: 4,  fat: 8  },
       { id: 'chips',         name: '薯片',     unit: '袋',   size: '50g/袋（小包）', weightG: 50,    carbs: 30, protein: 3,  fat: 15 },
       { id: 'avocado',       name: '牛油果',   unit: '个',   size: '200g/个（去核）', weightG: 200,   carbs: 12, protein: 4,  fat: 30 },
@@ -266,14 +267,14 @@ export const MEAL_TEMPLATES = {
     extra:  { id: 'sweet_potato',    label: '红薯' },         //  40g 碳/个，例：270g 碳 → 1 个
   },
   protein: {
-    main:   { id: 'chicken_thigh',   label: '鸡大腿' },       //  16g 蛋白/个
+    main:   { id: 'chicken_breast',   label: '鸡胸肉' },       //  23g 蛋白/100g
     side:   { id: 'egg',             label: '鸡蛋' },         //   7g 蛋白/个
-    extra:  { id: 'milk',            label: '牛奶' },         //   8g 蛋白/盒，例：165g 蛋白 → 3 盒
+    extra:  { id: 'milk',            label: '牛奶' },         //   8g 蛋白/250ml，例：165g 蛋白 → 2063ml
   },
   fat: {
-    main:   { id: 'oil',             label: '山茶油' },       //  10g 脂肪/勺
-    side:   { id: 'pork_belly',      label: '五花肉' },       //  30g 脂肪/块
-    extra:  { id: 'cashew',          label: '腰果' },         //  14g 脂肪/把
+    main:   { id: 'oil',             label: '山茶油' },       //  10g 脂肪/10g
+    side:   { id: 'pork_belly',      label: '五花肉' },       //  30g 脂肪/100g
+    extra:  { id: 'walnut',          label: '核桃' },         //  20g 脂肪/30g
   },
 };
 
@@ -385,7 +386,9 @@ export function describeMacroMeal(grams, key, asObject = false) {
   const calcOne = (entry) => {
     const food = findFood(entry.id);
     if (!food) return null;
-    return calcRepRef(food, key === 'fat' && entry.id === 'pork_belly' ? sideGrams : (entry.id === 'rice' || entry.id === 'chicken_thigh' || entry.id === 'oil' ? mainGrams : (entry.id === 'milk' || entry.id === 'cashew' ? extraGrams : sideGrams)), key);
+    const isMain = entry.id === 'rice' || entry.id === 'chicken_breast' || entry.id === 'oil';
+    const isExtra = entry.id === 'milk' || entry.id === 'walnut';
+    return calcRepRef(food, isMain ? mainGrams : isExtra ? extraGrams : sideGrams, key);
   };
 
   const main  = calcOne(tmpl.main);
@@ -514,6 +517,22 @@ function calcRepRef(rep, grams, key) {
   if (!rep || !rep[key]) return null;
   // 保留下 1 位小数（避免 0.5 个鸡腿被四含五入成 1 个）
   const qtyRaw = grams / rep[key];
+  const isMetric = rep.unit === 'g' || rep.unit === 'ml';
+  if (isMetric) {
+    // g/ml单位：直接算出总重量/容量（如 "870g鸡胸肉" "1563ml牛奶"）
+    const totalWeight = Math.round(qtyRaw * rep.weightG);
+    if (totalWeight <= 0) return null;
+    return {
+      colloquial: totalWeight >= 1000
+        ? `${(totalWeight / 1000).toFixed(1)}kg${rep.name}`
+        : `${totalWeight}${rep.unit}${rep.name}`,
+      precise: '',
+      qty: totalWeight,
+      totalUnitGram: totalWeight,
+      totalUnit: rep.unit,
+      rep,
+    };
+  }
   const qty = qtyRaw < 0.05 ? 0 : Math.round(qtyRaw * 10) / 10;
   if (qty <= 0) return null;
   const sizeInfo = parseSizeUnit(rep.size);

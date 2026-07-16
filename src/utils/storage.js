@@ -12,7 +12,7 @@ export const SAMPLE_DISHES = [
   // 菜品
   {
     id: '1', name: '红烧肉', category: 'dishes',
-    tags: ['东北菜'],
+    tags: ['包包的最爱'],
     servings: 5, // 五花肉 500g / 1人 100g
     recipe: '材料：五花肉500g、生抽、老抽、冰糖、八角、桂皮、葱姜\n\n做法：\n1. 五花肉切块，冷水下锅焯水去血沫\n2. 锅中放油，加冰糖炒糖色\n3. 放入五花肉翻炒上色\n4. 加入生抽、老抽、八角、桂皮、葱姜\n5. 加热水没过肉块，大火烧开转小火炖1小时\n6. 大火收汁即可',
     image: '', createdAt: Date.now() - 86400000 * 5, updatedAt: Date.now() - 86400000 * 5
@@ -477,7 +477,7 @@ export const SAMPLE_DISHES = [
   {
     id: '67', name: '黄瓜皮蛋汤', category: 'dishes',
     servings: 2, // 2 个皮蛋 1 锅 2 碗
-    tags: ['应季菜'],
+    tags: ['应季菜', '包包的最爱'],
     recipe: '材料：黄瓜1根、皮蛋2个、姜丝、葱花、盐、香油\n\n做法：\n1. 黄瓜洗净去皮切薄片\n2. 皮蛋剥壳切小块\n3. 锅中加水烧开，放入皮蛋\n4. 加姜丝煮2分钟出味\n5. 放入黄瓜片烫30秒\n6. 加盐调味，撒葱花，淋几滴香油出锅',
     image: '', createdAt: Date.now() - 86400000 * 67, updatedAt: Date.now() - 86400000 * 67
   },
@@ -1142,12 +1142,27 @@ export const SAMPLE_DISHES = [
     recipe: '材料：杏鲍菇2根、虾滑150g、生抽1勺、蚝油1勺、蒜2瓣、葱花少许、黑胡椒粉少许\n\n做法：\n1. 杏鲍菇切成厚片（约1cm厚）\n2. 虾滑挤在杏鲍菇片上抹平\n3. 不粘锅少许油，虾滑面朝下先煎\n4. 煎至金黄翻面，煎杏鲍菇面\n5. 调汁：生抽、蚝油、蒜末加少许水搅匀\n6. 倒入锅中焖2分钟\n7. 出锅撒黑胡椒粉和葱花',
     image: '', createdAt: Date.now() - 86400000 * 161, updatedAt: Date.now() - 86400000 * 161
   },
+  {
+    id: '162', name: '爆炒猪肝', category: 'dishes',
+    servings: 2, // 2 人份
+    tags: ['包包的最爱'],
+    recipe: '材料：猪肝300g、青椒1个、红椒1个、洋葱半个、姜3片、蒜3瓣、料酒2勺、生抽2勺、老抽半勺、淀粉1勺、白糖半勺、白胡椒粉少许\n\n做法：\n1. 猪肝切片，清水浸泡30分钟去血水\n2. 捞出沥干，加料酒、生抽、淀粉、白胡椒粉抓匀腌10分钟\n3. 青红椒切块，洋葱切块，姜蒜切片\n4. 调汁：生抽、老抽、白糖、淀粉加少许水搅匀\n5. 锅中多油烧至冒烟，下猪肝快速滑炒至变色立刻盛出\n6. 留底油爆香姜蒜，下青红椒、洋葱翻炒\n7. 倒回猪肝，淋入料汁大火翻炒10秒\n8. 出锅即可',
+    image: '', createdAt: Date.now() - 86400000 * 162, updatedAt: Date.now() - 86400000 * 162
+  },
+  {
+    id: '163', name: '孜然肉片', category: 'dishes',
+    servings: 2, // 2 人份
+    tags: ['包包的最爱'],
+    recipe: '材料：猪肉里脊200g、孜然粒2勺、辣椒粉1勺、白芝麻1勺、洋葱半个、生抽2勺、料酒1勺、淀粉1勺、盐少许\n\n做法：\n1. 里脊肉切薄片，加生抽、料酒、淀粉抓匀腌15分钟\n2. 洋葱切丝\n3. 热锅多油，下肉片滑炒至变色盛出\n4. 留底油炒洋葱丝至透明\n5. 倒回肉片，加孜然粒、辣椒粉、白芝麻大火翻炒\n6. 加少许盐调味，翻炒均匀出锅',
+    image: '', createdAt: Date.now() - 86400000 * 163, updatedAt: Date.now() - 86400000 * 163
+  },
 ];
 
 const DATA_VERSION_KEY = 'menu_app_data_version';
-const CURRENT_DATA_VERSION = 7;
-// 包包的最爱：仅以下三道
-const BAOBAO_FAV_IDS = new Set(['14', '15', '20']); // 腌笃鲜、红烧排骨、糖醋里脊
+const CURRENT_DATA_VERSION = 9;
+// 包包的最爱：完整清单（与 SAMPLE_DISHES tags 对齐）
+const BAOBAO_FAV_IDS = new Set(['1', '14', '15', '20', '67', '70', '86', '101', '162', '163']);
+// 红烧肉、腌笃鲜、红烧排骨、糖醋里脊、黄瓜皮蛋汤、西红柿炖牛腩、油焖大虾、酸菜鱼、爆炒猪肝、孜然肉片
 // 我的最爱：仅以下四道
 const WODE_FAV_IDS = new Set(['11', '12', '3', '13']); // 锅包肉、地三鲜、番茄炒蛋、鱼香肉丝
 
@@ -1207,6 +1222,15 @@ function migrate(existing, fromVersion) {
   if (fromVersion < 7) {
     // v7: 新增 4 道菜品：泰式打抛饭、辣椒茄子包、清炖排骨、杏鲍菇虾滑
     // merge 流程会通过 id 去重自动补齐 SAMPLE_DISHES 中的新项
+  }
+  if (fromVersion < 9) {
+    // v9: 黄瓜皮蛋汤(id=67) 加入 包包的最爱
+    data = data.map(dish => {
+      if (dish.id === '67' && (!dish.tags || !dish.tags.includes('包包的最爱'))) {
+        return { ...dish, tags: [...(dish.tags || []), '包包的最爱'] };
+      }
+      return dish;
+    });
   }
   return data;
 }
