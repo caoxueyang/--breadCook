@@ -25,6 +25,52 @@ const RISK = {
  * 按优先级从高到低排列，前面的匹配优先
  */
 const KEYWORD_RULES = [
+  // ===== 产地/品种降低农残的特殊规则（优先匹配） =====
+  // 放在最前面，避免被通用规则拦截
+  { keywords: ['新疆苹果', '阿克苏苹果', '陕西洛川苹果', '洛川苹果'], level: RISK.LOW },
+  { keywords: ['新疆库尔勒香梨', '库尔勒香梨', '新疆梨'], level: RISK.LOW },
+  { keywords: ['新疆葡萄', '吐鲁番葡萄', '新疆吐鲁番葡萄'], level: RISK.LOW },
+  { keywords: ['北京平谷大桃', '平谷大桃'], level: RISK.LOW },
+  { keywords: ['大连樱桃', '山东烟台樱桃', '烟台樱桃'], level: RISK.LOW },
+  { keywords: ['云南菠菜', '甘肃菠菜'], level: RISK.LOW },
+  { keywords: ['云南韭菜'], level: RISK.LOW },
+  { keywords: ['宁夏芹菜', '云南芹菜'], level: RISK.LOW },
+  { keywords: ['宁夏番茄', '宁夏西红柿', '新疆番茄', '新疆西红柿', '普罗旺斯番茄', '普罗旺斯西红柿'], level: RISK.LOW },
+  { keywords: ['贵州辣椒', '甘肃辣椒'], level: RISK.LOW },
+  { keywords: ['内蒙古土豆', '内蒙古马铃薯', '甘肃定西土豆', '定西土豆'], level: RISK.LOW },
+  { keywords: ['河北玉田白菜', '玉田白菜'], level: RISK.LOW },
+  { keywords: ['宁夏油菜', '云南油菜'], level: RISK.LOW },
+  { keywords: ['云南生菜', '甘肃生菜'], level: RISK.LOW },
+  { keywords: ['山东姜', '山东大姜'], level: RISK.LOW },
+  { keywords: ['江西赣南橙', '赣南橙'], level: RISK.LOW },
+  { keywords: ['江西赣南桔', '赣南桔'], level: RISK.LOW },
+  { keywords: ['福建平和柚', '平和琯溪蜜柚', '琯溪蜜柚'], level: RISK.LOW },
+  // 新增高农残类
+  { keywords: ['云南芸豆', '甘肃芸豆'], level: RISK.LOW },
+  { keywords: ['云南豆角', '甘肃豆角'], level: RISK.LOW },
+  { keywords: ['云南豇豆', '甘肃豇豆'], level: RISK.LOW },
+  { keywords: ['云南四季豆', '甘肃四季豆'], level: RISK.LOW },
+  { keywords: ['丹东草莓'], level: RISK.LOW },
+  { keywords: ['海南荔枝', '广东茂名荔枝', '茂名荔枝'], level: RISK.LOW },
+  { keywords: ['广东高州龙眼', '高州龙眼'], level: RISK.LOW },
+  { keywords: ['浙江仙居杨梅', '仙居杨梅'], level: RISK.LOW },
+  { keywords: ['陕西大荔冬枣', '大荔冬枣'], level: RISK.LOW },
+  // 新增中等农残类
+  { keywords: ['云南茼蒿', '甘肃茼蒿'], level: RISK.LOW },
+  { keywords: ['云南荠菜'], level: RISK.LOW },
+  { keywords: ['云南菜苔', '甘肃菜苔'], level: RISK.LOW },
+  { keywords: ['云南蒜苗', '甘肃蒜苗', '云南大蒜苗'], level: RISK.LOW },
+  { keywords: ['云南空心菜', '甘肃空心菜'], level: RISK.LOW },
+  { keywords: ['云南苋菜', '甘肃苋菜'], level: RISK.LOW },
+  { keywords: ['海南陵水圣女果', '陵水圣女果', '云南圣女果'], level: RISK.LOW },
+  { keywords: ['山东章丘大葱', '章丘大葱', '甘肃大葱'], level: RISK.LOW },
+  { keywords: ['福建云霄枇杷', '云霄枇杷'], level: RISK.LOW },
+  { keywords: ['广东郁南黄皮', '郁南黄皮'], level: RISK.LOW },
+  { keywords: ['广西武鸣沃柑', '武鸣沃柑', '四川眉山柑', '眉山柑'], level: RISK.LOW },
+  // 特殊品种
+  { keywords: ['安徽砀山黄桃', '砀山黄桃', '黄桃'], level: RISK.LOW },
+  { keywords: ['广东连平鹰嘴桃', '连平鹰嘴桃', '鹰嘴桃'], level: RISK.LOW },
+
   // ===== 高农残 (HIGH) =====
   // 叶菜类重灾区
   { keywords: ['菠菜'], level: RISK.HIGH },
@@ -135,6 +181,165 @@ const KEYWORD_RULES = [
 ];
 
 /**
+ * 产地/品种推荐：某些食材选择特定产地或品种可显著降低农残风险
+ * 格式：{ 食材关键词: [{ origin, note, riskLevel }] }
+ */
+const ORIGIN_RECOMMENDATIONS = {
+  // ==================== 高农残食材 ====================
+  '苹果': [
+    { origin: '新疆阿克苏', note: '高海拔昼夜温差大、病虫害少，果核附近糖分聚集，品质好农残低', riskLevel: RISK.LOW },
+    { origin: '陕西洛川', note: '黄土高原最佳优生区，昼夜温差大、病虫害少，用药少', riskLevel: RISK.LOW },
+  ],
+  '梨': [
+    { origin: '新疆库尔勒', note: '干燥少雨、病虫害少，香梨皮薄肉甜，农残低', riskLevel: RISK.LOW },
+  ],
+  '葡萄': [
+    { origin: '新疆吐鲁番', note: '干燥少雨、日照充足、病虫害少，用药少', riskLevel: RISK.LOW },
+  ],
+  '桃子': [
+    { origin: '北京平谷', note: '地理标志产品，标准化种植，农药可控', riskLevel: RISK.LOW },
+  ],
+  '樱桃': [
+    { origin: '大连', note: '地理标志产品，冷凉气候病虫害少', riskLevel: RISK.LOW },
+    { origin: '山东烟台', note: '传统优势产区，种植规范', riskLevel: RISK.LOW },
+  ],
+  '菠菜': [
+    { origin: '云南', note: '高原冷凉气候病虫害少，用药少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，冷凉气候病虫害少', riskLevel: RISK.LOW },
+  ],
+  '韭菜': [
+    { origin: '云南', note: '高原冷凉气候病虫害少，用药少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '芹菜': [
+    { origin: '宁夏', note: '冷凉蔬菜优势产区，病虫害少', riskLevel: RISK.LOW },
+    { origin: '云南', note: '高原冷凉气候病虫害少，用药少', riskLevel: RISK.LOW },
+  ],
+  '芸豆': [
+    { origin: '云南', note: '高原冷凉气候病虫害少，用药少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '豆角': [
+    { origin: '云南', note: '高原冷凉气候病虫害少，用药少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '豇豆': [
+    { origin: '云南', note: '高原冷凉气候病虫害少，用药少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '四季豆': [
+    { origin: '云南', note: '高原冷凉气候病虫害少，用药少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '草莓': [
+    { origin: '丹东', note: '地理标志产品，品质优良', riskLevel: RISK.MODERATE },
+  ],
+  '荔枝': [
+    { origin: '海南', note: '早熟产区，标准化种植', riskLevel: RISK.MODERATE },
+    { origin: '广东茂名', note: '传统优势产区，种植规范', riskLevel: RISK.MODERATE },
+  ],
+  '龙眼': [
+    { origin: '广东高州', note: '地理标志产品，标准化种植', riskLevel: RISK.MODERATE },
+  ],
+  '杨梅': [
+    { origin: '浙江仙居', note: '地理标志产品，标准化种植', riskLevel: RISK.MODERATE },
+  ],
+  '枣': [
+    { origin: '陕西大荔', note: '地理标志产品，冬枣标准化种植', riskLevel: RISK.LOW },
+  ],
+
+  // ==================== 中等农残食材 ====================
+  '番茄': [
+    { origin: '普罗旺斯', note: '普罗旺斯番茄多为大棚种植，用药可控，农残低', riskLevel: RISK.LOW },
+    { origin: '宁夏', note: '宁夏昼夜温差大、病虫害少，用药少，农残低', riskLevel: RISK.LOW },
+    { origin: '新疆', note: '新疆干燥少雨、病虫害少，用药少，农残低', riskLevel: RISK.LOW },
+  ],
+  '辣椒': [
+    { origin: '贵州', note: '高原冷凉气候病虫害少，遵义朝天椒等品种规范种植', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，冷凉气候病虫害少', riskLevel: RISK.LOW },
+  ],
+  '土豆': [
+    { origin: '内蒙古', note: '高海拔冷凉气候病虫害少，用药少', riskLevel: RISK.LOW },
+    { origin: '甘肃定西', note: '优质马铃薯产区，高海拔冷凉病虫害少', riskLevel: RISK.LOW },
+  ],
+  '白菜': [
+    { origin: '河北玉田', note: '地理标志产品，包尖白菜品质好', riskLevel: RISK.LOW },
+  ],
+  '油菜': [
+    { origin: '宁夏', note: '冷凉蔬菜产区，病虫害少', riskLevel: RISK.LOW },
+    { origin: '云南', note: '高原冷凉气候病虫害少', riskLevel: RISK.LOW },
+  ],
+  '生菜': [
+    { origin: '云南', note: '高原冷凉气候病虫害少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '茼蒿': [
+    { origin: '云南', note: '高原冷凉气候病虫害少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '荠菜': [
+    { origin: '云南', note: '高原冷凉气候病虫害少', riskLevel: RISK.LOW },
+  ],
+  '菜苔': [
+    { origin: '云南', note: '高原冷凉气候病虫害少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '蒜苗': [
+    { origin: '云南', note: '高原冷凉气候病虫害少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '空心菜': [
+    { origin: '云南', note: '高原冷凉气候病虫害少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '苋菜': [
+    { origin: '云南', note: '高原冷凉气候病虫害少', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '圣女果': [
+    { origin: '海南陵水', note: '热带气候产区，标准化种植', riskLevel: RISK.LOW },
+    { origin: '云南', note: '高原冷凉气候病虫害少', riskLevel: RISK.LOW },
+  ],
+  '葱': [
+    { origin: '山东章丘', note: '地理标志产品，大葱标准化种植', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，病虫害少', riskLevel: RISK.LOW },
+  ],
+  '姜': [
+    { origin: '山东', note: '大姜主产区，种植规范', riskLevel: RISK.LOW },
+  ],
+  '枇杷': [
+    { origin: '福建云霄', note: '地理标志产品，标准化种植', riskLevel: RISK.LOW },
+  ],
+  '黄皮': [
+    { origin: '广东郁南', note: '地理标志产品，标准化种植', riskLevel: RISK.LOW },
+  ],
+  '橙': [
+    { origin: '江西赣南', note: '地理标志产品，标准化种植，农药可控', riskLevel: RISK.LOW },
+  ],
+  '柑': [
+    { origin: '广西武鸣', note: '沃柑地理标志产品，标准化种植', riskLevel: RISK.LOW },
+    { origin: '四川眉山', note: '爱媛/春见等品种优质产区', riskLevel: RISK.LOW },
+  ],
+  '桔': [
+    { origin: '江西赣南', note: '地理标志产品，标准化种植，农药可控', riskLevel: RISK.LOW },
+  ],
+  '柚': [
+    { origin: '福建平和', note: '琯溪蜜柚地理标志产品，标准化种植', riskLevel: RISK.LOW },
+  ],
+
+  // ==================== 特殊品种/产地精准匹配 ====================
+  '黄桃': [
+    { origin: '安徽砀山', note: '砀山黄桃地理标志产品，标准化种植', riskLevel: RISK.LOW },
+  ],
+  '鹰嘴桃': [
+    { origin: '广东连平', note: '地理标志产品，标准化种植', riskLevel: RISK.LOW },
+  ],
+  '蓝莓': [
+    { origin: '建议选有机', note: '蓝莓浆果病虫害多，常规种植农残高，优选有机产品', riskLevel: RISK.MODERATE },
+  ],
+};
+
+/**
  * 判断单个食材/水果名称的农药残留风险等级
  * @param {string} name - 食材名称（如"红颜草莓"、"妃子笑荔枝"）
  * @returns {('low'|'moderate'|'high'|null)} 风险等级，null 表示未匹配
@@ -169,6 +374,24 @@ export function getPesticideRiskDetail(name) {
         // 返回规范名称（关键词组第一个）和风险等级
         return { level: rule.level, matchedWord: rule.keywords[0] };
       }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * 获取某食材的产地/品种推荐（选择哪些产地可降低农残）
+ * @param {string} name - 食材名称
+ * @returns {Array<{origin:string, note:string, riskLevel:string}> | null}
+ */
+export function getOriginRecommendations(name) {
+  if (!name) return null;
+  const lower = name.toLowerCase();
+
+  for (const [foodKey, recommendations] of Object.entries(ORIGIN_RECOMMENDATIONS)) {
+    if (lower.includes(foodKey.toLowerCase())) {
+      return recommendations;
     }
   }
 

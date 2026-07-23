@@ -5,7 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { getDish } from '../utils/storage';
 import { getPompImage, kittyFaceUrl as kittyFace } from '../utils/defaultImages';
 import CalorieEstimate from '../components/CalorieEstimate';
-import { parseRecipeIngredients, RISK_LABELS, RISK_COLORS } from '../data/pesticideRisk';
+import { parseRecipeIngredients, getOriginRecommendations, RISK_LABELS, RISK_COLORS } from '../data/pesticideRisk';
 import './DishDetail.css';
 import './Page.css';
 
@@ -205,6 +205,31 @@ export default function DishDetail() {
                       );
                     })}
                   </div>
+                {(() => {
+                  // 收集有产地推荐的食材，去重后展示提示
+                  const originTips = [];
+                  const seen = new Set();
+                  ingredients.forEach(ing => {
+                    const cleanName = ing.name;
+                    if (!cleanName || seen.has(cleanName)) return;
+                    const recommendations = getOriginRecommendations(cleanName);
+                    if (recommendations && recommendations.length > 0) {
+                      seen.add(cleanName);
+                      const origins = recommendations.map(r => r.origin).join('、');
+                      originTips.push({ name: cleanName, origins, note: recommendations[0].note });
+                    }
+                  });
+                  if (originTips.length === 0) return null;
+                  return (
+                    <div className="origin-tips">
+                      {originTips.map(tip => (
+                        <p key={tip.name} className="origin-tip">
+                          💡 {tip.name}：选择 <strong>{tip.origins}</strong> 等产地可降低农残
+                        </p>
+                      ))}
+                    </div>
+                  );
+                })()}
                 </>
               );
             })()}

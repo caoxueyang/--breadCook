@@ -639,6 +639,41 @@ html[data-theme="minimal"] .seasonal-tag-fruit .seasonal-tag-origin {
   color: #666;
 }
 
+/* 产地推荐提示（应季蔬果区） */
+.seasonal-origin-tips {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: #FFF8E1;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid #FFB300;
+}
+
+html[data-theme="hellokitty"] .seasonal-origin-tips {
+  background: #FFF0F5;
+  border-left-color: #FF85A2;
+}
+
+html[data-theme="pompompurin"] .seasonal-origin-tips {
+  background: #FFF8E1;
+  border-left-color: #D4A017;
+}
+
+.seasonal-origin-tip {
+  font-size: 11.5px;
+  color: #8D6E00;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.seasonal-origin-tip + .seasonal-origin-tip {
+  margin-top: 4px;
+}
+
+.seasonal-origin-tip strong {
+  font-weight: 700;
+  color: #6D4F00;
+}
+
 /* ═══════ 农残风险总览卡片（SeasonalBanner 内） ═══════ */
 .risk-overview {
   margin: 10px 0;

@@ -166,6 +166,41 @@
   font-style: italic;
 }
 
+/* 产地推荐提示 */
+.origin-tips {
+  margin: 16px 0 0;
+  padding: 10px 12px;
+  background: #FFF8E1;
+  border-radius: var(--radius-md);
+  border-left: 3px solid #FFB300;
+}
+
+html[data-theme="hellokitty"] .origin-tips {
+  background: #FFF0F5;
+  border-left-color: #FF85A2;
+}
+
+html[data-theme="pompompurin"] .origin-tips {
+  background: #FFF8E1;
+  border-left-color: #D4A017;
+}
+
+.origin-tip {
+  font-size: var(--font-size-sm);
+  color: #8D6E00;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.origin-tip + .origin-tip {
+  margin-top: 6px;
+}
+
+.origin-tip strong {
+  font-weight: 700;
+  color: #6D4F00;
+}
+
 .detail-actions {
   display: flex;
   gap: 12px;
