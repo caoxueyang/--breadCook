@@ -37,6 +37,7 @@ const KEYWORD_RULES = [
   { keywords: ['宁夏芹菜', '云南芹菜'], level: RISK.LOW },
   { keywords: ['宁夏番茄', '宁夏西红柿', '新疆番茄', '新疆西红柿', '普罗旺斯番茄', '普罗旺斯西红柿'], level: RISK.LOW },
   { keywords: ['贵州辣椒', '甘肃辣椒'], level: RISK.LOW },
+  { keywords: ['贵州青椒', '甘肃青椒'], level: RISK.LOW },
   { keywords: ['内蒙古土豆', '内蒙古马铃薯', '甘肃定西土豆', '定西土豆'], level: RISK.LOW },
   { keywords: ['河北玉田白菜', '玉田白菜'], level: RISK.LOW },
   { keywords: ['宁夏油菜', '云南油菜'], level: RISK.LOW },
@@ -258,6 +259,14 @@ const ORIGIN_RECOMMENDATIONS = {
     { origin: '贵州', note: '高原冷凉气候病虫害少，遵义朝天椒等品种规范种植', riskLevel: RISK.LOW },
     { origin: '甘肃', note: '高原夏菜产区，冷凉气候病虫害少', riskLevel: RISK.LOW },
   ],
+  '青椒': [
+    { origin: '贵州', note: '高原冷凉气候病虫害少，青椒种植规范', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，冷凉气候病虫害少', riskLevel: RISK.LOW },
+  ],
+  '甜椒': [
+    { origin: '贵州', note: '高原冷凉气候病虫害少，甜椒品质好', riskLevel: RISK.LOW },
+    { origin: '甘肃', note: '高原夏菜产区，冷凉气候病虫害少', riskLevel: RISK.LOW },
+  ],
   '土豆': [
     { origin: '内蒙古', note: '高海拔冷凉气候病虫害少，用药少', riskLevel: RISK.LOW },
     { origin: '甘肃定西', note: '优质马铃薯产区，高海拔冷凉病虫害少', riskLevel: RISK.LOW },
@@ -325,6 +334,11 @@ const ORIGIN_RECOMMENDATIONS = {
   ],
   '柚': [
     { origin: '福建平和', note: '琯溪蜜柚地理标志产品，标准化种植', riskLevel: RISK.LOW },
+  ],
+  '黄瓜': [
+    { origin: '山东沂南', note: '中国黄瓜之乡，地理标志产品，冲积平原沙土地标准化种植', riskLevel: RISK.LOW },
+    { origin: '青海大通', note: '高原冷凉气候病虫害少，新庄黄瓜地理标志产品', riskLevel: RISK.LOW },
+    { origin: '甘肃合水', note: '板桥白黄瓜地理标志产品，传统优良品种皮薄质脆', riskLevel: RISK.LOW },
   ],
 
   // ==================== 特殊品种/产地精准匹配 ====================
