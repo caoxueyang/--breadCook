@@ -413,6 +413,45 @@ export function getOriginRecommendations(name) {
 }
 
 /**
+ * 搜索食材名，返回所有匹配的农残风险信息（正向+反向同时匹配）
+ * 用于搜索框场景：输入"葡萄"同时匹配"葡萄"(高)和"新疆葡萄"(低)
+ *
+ * @param {string} name - 搜索词
+ * @returns {Array<{ level: string, matchedWord: string }>}
+ */
+export function searchPesticideRisks(name) {
+  if (!name) return [];
+  const lower = name.trim().toLowerCase();
+  const results = [];
+  const seen = new Set();
+
+  for (const rule of KEYWORD_RULES) {
+    let matched = false;
+    for (const keyword of rule.keywords) {
+      const kw = keyword.toLowerCase();
+      // 正向：搜索词包含关键词（原逻辑） OR 关键词包含搜索词（反向匹配）
+      if (lower.includes(kw) || kw.includes(lower)) {
+        matched = true;
+        break;
+      }
+    }
+    if (matched) {
+      const matchedWord = rule.keywords[0];
+      if (!seen.has(matchedWord)) {
+        seen.add(matchedWord);
+        results.push({ level: rule.level, matchedWord });
+      }
+    }
+  }
+
+  // 按风险等级排序：高 → 中 → 低，同级保持原有顺序
+  const order = { high: 0, moderate: 1, low: 2 };
+  results.sort(function(a, b) { return (order[a.level] || 9) - (order[b.level] || 9); });
+
+  return results;
+}
+
+/**
  * 风险等级对应的显示文本
  */
 export const RISK_LABELS = {

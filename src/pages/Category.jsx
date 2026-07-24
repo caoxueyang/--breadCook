@@ -12,7 +12,7 @@ import {
 } from '../utils/seasonal';
 import {
   getPesticideRisk,
-  getPesticideRiskDetail,
+  searchPesticideRisks,
   getOriginRecommendations,
   RISK_LABELS,
   RISK_COLORS,
@@ -92,20 +92,11 @@ export default function Category() {
     return result;
   }, [dishes, category, activeTag, searchQuery]);
 
-  // 搜索模式下，检测搜索词是否匹配已知食材，提取农残信息
-  const searchedIngredient = useMemo(() => {
+  // 搜索模式下，检测搜索词是否匹配已知食材，提取农残信息（可能匹配多个）
+  const searchedIngredients = useMemo(() => {
     const q = searchQuery.trim();
-    if (!q) return null;
-    const detail = getPesticideRiskDetail(q);
-    if (!detail) return null;
-    // 用规范名称（如"西蓝花"→"西兰花"）展示
-    const displayName = detail.matchedWord;
-    return {
-      name: displayName,
-      risk: detail.level,
-      colors: RISK_COLORS[detail.level],
-      label: RISK_LABELS[detail.level],
-    };
+    if (!q) return [];
+    return searchPesticideRisks(q);
   }, [searchQuery]);
 
   return (
@@ -146,51 +137,54 @@ export default function Category() {
             <SeasonalBanner type={activeTag} count={filteredDishes.length} selectedMonth={selectedMonth} onChangeMonth={setSelectedMonth} />
           )
         ) : null}
-        {/* 搜索模式：如果搜索词匹配已知食材，先展示食材农残信息 */}
-        {searchedIngredient && (() => {
-          const recs = getOriginRecommendations(searchedIngredient.name);
-          return (
-            <div className="seasonal-banner" style={{ margin: '12px 16px 0' }}>
-              <div className="seasonal-banner-header">
-                <span className="seasonal-icon">🥬</span>
-                <span className="seasonal-title">{searchedIngredient.name}</span>
-                <span className="seasonal-count">食材农残</span>
-              </div>
-              <div className="seasonal-tags">
-                <span
-                  className="seasonal-tag has-risk"
-                  style={{
-                    '--risk-bg': searchedIngredient.colors.bg,
-                    '--risk-border': searchedIngredient.colors.border,
-                    '--risk-text': searchedIngredient.colors.text,
-                  }}
-                  title={searchedIngredient.label.desc}
-                >
-                  {searchedIngredient.name}
-                  <span className="risk-dot" style={{ backgroundColor: searchedIngredient.colors.text }} />
-                </span>
-                <span style={{ fontSize: 13, color: 'var(--color-text-secondary)', alignSelf: 'center' }}>
-                  {searchedIngredient.label.label} · {searchedIngredient.label.desc}
-                </span>
-              </div>
-              {recs && recs.length > 0 && (
-                <p style={{ fontSize: 12, color: '#8D6E00', marginTop: 6, lineHeight: 1.5 }}>
-                  💡 {searchedIngredient.name}建议选择<strong>{recs.map(r => r.origin).join('、')}</strong>等产地，可降低农残
-                </p>
-              )}
-              {filteredDishes.length > 0 && (
-                <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 8 }}>
-                  含此食材的菜品 <strong>{filteredDishes.length}</strong> 道 ↓
-                </p>
-              )}
+        {/* 搜索模式：如果搜索词匹配已知食材，先展示食材农残信息（支持多条） */}
+        {searchedIngredients.length > 0 && (
+          <div className="seasonal-banner" style={{ margin: '12px 16px 0' }}>
+            <div className="seasonal-banner-header">
+              <span className="seasonal-icon">🥬</span>
+              <span className="seasonal-title">食材农残</span>
+              <span className="seasonal-count">找到 {searchedIngredients.length} 个相关</span>
             </div>
-          );
-        })()}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {searchedIngredients.map(item => {
+                const colors = RISK_COLORS[item.level];
+                const label = RISK_LABELS[item.level];
+                const recs = getOriginRecommendations(item.matchedWord);
+                return (
+                  <div key={item.matchedWord}>
+                    <div className="seasonal-tags">
+                      <span
+                        className="seasonal-tag has-risk"
+                        style={{
+                          '--risk-bg': colors.bg,
+                          '--risk-border': colors.border,
+                          '--risk-text': colors.text,
+                        }}
+                        title={label.desc}
+                      >
+                        {item.matchedWord}
+                        <span className="risk-dot" style={{ backgroundColor: colors.text }} />
+                      </span>
+                      <span style={{ fontSize: 13, color: 'var(--color-text-secondary)', alignSelf: 'center' }}>
+                        {label.label} · {label.desc}
+                      </span>
+                    </div>
+                    {recs && recs.length > 0 && (
+                      <p style={{ fontSize: 12, color: '#8D6E00', marginTop: 2, lineHeight: 1.5 }}>
+                        💡 {item.matchedWord}建议选择<strong>{recs.map(r => r.origin).join('、')}</strong>等产地，可降低农残
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
         {filteredDishes.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">{config.empty}</div>
             <p className="empty-text">
-              {searchQuery.trim() && searchedIngredient ? (
+              {searchQuery.trim() && searchedIngredients.length > 0 ? (
                 <>暂无含“<strong>{searchQuery.trim()}</strong>”的菜品，试试其他关键词</>
               ) : searchQuery.trim() ? (
                 <>未搜到“<strong>{searchQuery.trim()}</strong>”相关的菜品</>
